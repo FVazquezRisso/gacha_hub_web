@@ -28,6 +28,9 @@ const config: Config = {
           200: colors.bg_200,
           300: colors.bg_300,
         },
+        error: {
+          100: colors.error_100  
+        }
       },
     },
   },
