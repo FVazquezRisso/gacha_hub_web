@@ -17,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={cabin.className}>{children}</body>
+      <body className={cabin.className}>
+        {children}
+      </body>
     </html>
   );
 }

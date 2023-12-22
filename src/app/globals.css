@@ -2,3 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-100: #2e8b57;
+  --primary-200: #61bc84;
+  --primary-300: #c6ffe6;
+  --accent-100: #8fbc8f;
+  --accent-200: #345e37;
+  --text-100: #ffffff;
+  --text-200: #e0e0e0;
+  --bg-100: #1e1e1e;
+  --bg-200: #2d2d2d;
+  --bg-300: #454545;
+  --error-100: #fc3d3d;
+}
+
+html {
+  background-color: var(--bg-100);
+  color: var(--text-200);
+}
+
+.form-input-text {
+  @apply bg-transparent border-b-2 border-primary-100 text-primary-100 pt-4 px-2 pb-1 placeholder-bg-300 outline-none text-xl;
+}
+
+.button {
+  @apply text-text-200 rounded-full bg-primary-100 px-4 py-2 mt-4 text-xl outline-none;
+}
+
+.disabled-button {
+  @apply text-bg-300 rounded-full bg-bg-200 px-4 py-2 mt-4 text-xl outline-none;
+}
+
+.no-scroll-container {
+  @apply flex flex-col justify-center items-center w-screen h-screen;
+}
+
+.link {
+  @apply text-primary-200 border-b-2 border-primary-200;
+}
