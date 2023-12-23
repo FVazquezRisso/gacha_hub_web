@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useState, useEffect } from "react";
-import { validateFields } from "../../utils/validateField";
-import { api } from "../../services/apiConfig";
+import { validateFields } from "../../../utils/validateField";
+import { api } from "../../../services/apiConfig";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -38,7 +38,7 @@ export default function Register() {
           autoClose: 1500,
         })
         setTimeout(() => {
-          router.push("/login");
+          router.push("/web/login");
         }, 1500);
       }
     } catch (error) {
@@ -62,7 +62,7 @@ export default function Register() {
     <>
       <form onSubmit={handleSubmit} className="no-scroll-container gap-4">
         <div className="flex items-center">
-          <Link href="/">
+          <Link href="/web">
             <IoMdArrowRoundBack size={32} />
           </Link>
           <h1 className="text-5xl text-text-200 text-center m-4">Registro</h1>
@@ -117,7 +117,7 @@ export default function Register() {
         >
           Crear cuenta
         </button>
-        <Link href="/login" className="link mt-4">
+        <Link href="/web/login" className="link mt-4">
           Ya tengo una cuenta
         </Link>
       </form>
