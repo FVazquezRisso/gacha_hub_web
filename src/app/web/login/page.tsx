@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useState, useEffect } from "react";
-import { api } from "../../services/apiConfig.ts";
+import { api } from "../../../services/apiConfig";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +24,7 @@ export default function Register() {
       const response = await api.post("/users/login", data);
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        router.push("/home/latest");
+        router.push("/web/home/latest");
       }
     } catch (error) {
       toast.error("Usuario o contraseña incorrectos.", {
@@ -47,7 +47,7 @@ export default function Register() {
     <>
       <form onSubmit={handleSubmit} className="no-scroll-container gap-4">
         <div className="flex items-center">
-          <Link href="/">
+          <Link href="/web">
             <IoMdArrowRoundBack size={32} />
           </Link>
           <h1 className="text-5xl text-text-200 text-center m-4">Ingresar</h1>
@@ -74,7 +74,7 @@ export default function Register() {
         >
           Iniciar sesión
         </button>
-        <Link href="/register" className="link mt-4">
+        <Link href="/web/register" className="link mt-4">
           No tengo una cuenta aún
         </Link>
       </form>
