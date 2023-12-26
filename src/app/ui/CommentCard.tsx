@@ -1,5 +1,6 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import UserCard from "../ui/UserCard";
 
 type comment = {
   content: string;
@@ -13,7 +14,7 @@ type author = {
 };
 
 export default function CommentCard({ content, author }: comment) {
-  const router = useRouter()
+  const router = useRouter();
 
   const handleClickUser = () => {
     router.push(`/web/profile/${author.username}`);
@@ -21,18 +22,10 @@ export default function CommentCard({ content, author }: comment) {
 
   return (
     <div>
-      <div className="h-12 w-screen flex justify-start items-center gap-4 px-6 py-4">
-        <img
-          src={author.avatar}
-          alt={author.username}
-          className="w-10 rounded-full"
-          onClick={handleClickUser}
-        />
-        <p className="font-medium text-lg" onClick={handleClickUser}>
-          {author.username}
-        </p>
+      <div className='mx-8'>
+        <UserCard username={author.username} avatar={author.avatar} size={10} />
       </div>
-      <p className='overflow-x-hidden whitespace-pre-wrap break-all py-4 px-12'>
+      <p className="overflow-x-hidden whitespace-pre-wrap break-all py-4 px-12">
         {content}
       </p>
     </div>

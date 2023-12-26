@@ -4,6 +4,7 @@ import { api } from "@/services/apiConfig";
 import PostCard from "@/app/ui/PostCard";
 import { PostInterface } from "@/types/posts.types";
 import { oswald } from "@/app/ui/fonts";
+import UserCard from "../../../ui/UserCard";
 
 export default function Profile({ params }) {
   const { username } = params;
@@ -45,13 +46,8 @@ export default function Profile({ params }) {
       <div className="w-screen h-16 bg-primary-100 flex items-center p-4">
         <h2 className="text-2xl font-semibold">Perfil de {username}</h2>
       </div>
-      <div className="h-12 w-screen flex justify-start items-center gap-4 p-6 mt-8">
-        <img
-          src={userData.avatar}
-          alt={username}
-          className="w-12 rounded-full"
-        />
-        <p className="font-medium text-xl">{username}</p>
+      <div className='mx-4'>
+      <UserCard username={username} avatar={userData.avatar} />
       </div>
       <h3 className="text-xl mx-8 mt-4">Biografía:</h3>
       <p className="overflow-x-hidden whitespace-pre-wrap break-all px-8 pb-4 mt-2 border-b-[1px] border-bg-300">
@@ -59,7 +55,7 @@ export default function Profile({ params }) {
       </p>
       <div className="flex flex-col mt-8 px-8">
         <h2 className="text-2xl text-center">Publicaciones de {username}</h2>
-        {posts.length !== 0 && 
+        {posts.length !== 0 &&
           posts.map((post: PostInterface) => {
             return (
               <PostCard
