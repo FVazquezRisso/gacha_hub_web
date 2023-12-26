@@ -26,11 +26,11 @@ html {
 }
 
 .button {
-  @apply text-text-200 rounded-full bg-primary-100 px-4 py-2 mt-4 text-xl outline-none;
+  @apply text-text-200 rounded-full bg-primary-100 px-4 py-2 text-xl outline-none;
 }
 
 .disabled-button {
-  @apply text-bg-300 rounded-full bg-bg-200 px-4 py-2 mt-4 text-xl outline-none;
+  @apply text-bg-300 rounded-full bg-bg-200 px-4 py-2 text-xl outline-none;
 }
 
 .no-scroll-container {

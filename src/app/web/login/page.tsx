@@ -6,6 +6,7 @@ import { api } from "../../../services/apiConfig";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
 
 export default function Register() {
   const router = useRouter();
@@ -24,6 +25,11 @@ export default function Register() {
       const response = await api.post("/users/login", data);
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
+        const decoded = jwtDecode(response.data.token);
+        localStorage.setItem("username", decoded.username);
+        localStorage.setItem('avatar', decoded.avatar)
+        localStorage.setItem("role", decoded.role);
+        localStorage.setItem("isVerified", decoded.isVerified);
         router.push("/web/home/latest");
       }
     } catch (error) {
@@ -47,7 +53,7 @@ export default function Register() {
     <>
       <form onSubmit={handleSubmit} className="no-scroll-container gap-4">
         <div className="flex items-center">
-          <Link href="/web">
+          <Link href="/">
             <IoMdArrowRoundBack size={32} />
           </Link>
           <h1 className="text-5xl text-text-200 text-center m-4">Ingresar</h1>
@@ -69,7 +75,7 @@ export default function Register() {
           onChange={handleChange}
         />
         <button
-          className={disabledButton ? "disabled-button" : "button"}
+          className={disabledButton ? "disabled-button mt-4" : "button mt-4"}
           disabled={disabledButton}
         >
           Iniciar sesión
