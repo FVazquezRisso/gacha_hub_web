@@ -62,7 +62,7 @@ export default function Register() {
     <>
       <form onSubmit={handleSubmit} className="no-scroll-container gap-4">
         <div className="flex items-center">
-          <Link href="/web">
+          <Link href="/">
             <IoMdArrowRoundBack size={32} />
           </Link>
           <h1 className="text-5xl text-text-200 text-center m-4">Registro</h1>
@@ -112,7 +112,7 @@ export default function Register() {
           )}
         </label>
         <button
-          className={disabledButton ? "disabled-button" : "button"}
+          className={disabledButton ? "disabled-button mt-4" : "button mt-4"}
           disabled={disabledButton}
         >
           Crear cuenta

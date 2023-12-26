@@ -5,6 +5,9 @@ export interface PostInterface {
   updatedAt: string;
   deletedAt: any;
   author: Author;
+  likeCount: number;
+  userLikedPost: boolean;
+  commentCount: number;
 }
 
 interface Author {

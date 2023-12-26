@@ -19,7 +19,8 @@ export default function Latest() {
       if (!hasMorePosts) {
         return;
       }
-      const response = await api.get(`/posts?page=${currentPage}`);
+      const username = localStorage.getItem('username')
+      const response = await api.get(`/posts?page=${currentPage}&username=${username}`);
       if (response.status === 200) {
         setPosts([...posts, ...response.data.posts]);
         if (response.data.posts.length < 10) {
@@ -38,18 +39,18 @@ export default function Latest() {
   }, [inView]);
 
   return (
-    <div className="pt-12 pb-16">
+    <div className="pt-16 pb-16">
       {posts.length !== 0 &&
         posts.map((post: PostInterface) => {
           return (
             <PostCard
               key={post.id}
               id={post.id}
-              username={post.author.username}
-              avatar={post.author.avatar}
+              author={post.author}
               content={post.content}
-              likeCount={0}
-              commentsCount={0}
+              likeCount={post.likeCount}
+              userLikedPost={post.userLikedPost}
+              commentCount={post.commentCount}
             />
           );
         })}

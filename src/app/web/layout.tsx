@@ -6,12 +6,16 @@ import { useEffect } from "react";
 export default function WebLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const inApp = !["/web", "/web/register", "/web/login"].includes(pathname);
+  const inApp = !["/web/register", "/web/login"].includes(pathname);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token && inApp) {
-      router.push("/web");
+      router.push("/");
+    }
+
+    if (token && !inApp) {
+      router.push('/web/home/latest')
     }
   }, []);
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { oswald } from "../../app/ui/fonts.ts";
+import { oswald } from "./ui/fonts.ts";
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
         </p>
         <Link
           href="/web/register"
-          className="button"
+          className="button mt-4"
         >
           ¡Únete a la comunidad!
         </Link>
