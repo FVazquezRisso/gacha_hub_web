@@ -9,19 +9,22 @@ import { oswald } from "@/app/ui/fonts";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CommentInterface, PostInterface } from "../../../../types/types.ts";
+import UserCard from "../../../ui/UserCard";
+import Header from '../../../ui/Header'
 
 export default function PostDetail({ params }) {
   const { id } = params;
   const router = useRouter();
   const username = localStorage.getItem("username");
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState<PostInterface | null>(null);
   const avatar = localStorage.getItem("avatar");
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<CommentInterface[]>([]);
   const [disabledButton, setDisabledButton] = useState(true);
   const [content, setContent] = useState("");
-  const [commentCount, setCommentCount] = useState(0)
+  const [commentCount, setCommentCount] = useState(0);
 
   const getPost = async () => {
     try {
@@ -30,7 +33,7 @@ export default function PostDetail({ params }) {
         setPost(response.data);
         setIsLiked(response.data.userLikedPost);
         setLikes(response.data.likeCount);
-        setCommentCount(response.data.commentCount)
+        setCommentCount(response.data.commentCount);
       }
     } catch (error) {
       console.error(error);
@@ -46,10 +49,6 @@ export default function PostDetail({ params }) {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const handleClickUser = () => {
-    router.push(`/web/profile/${post.author.username}`);
   };
 
   const handleClickHeart = async () => {
@@ -83,17 +82,21 @@ export default function PostDetail({ params }) {
     event.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const response = await api.post(`/comments/${id}`, { content }, {
-        headers: { "x-access-token": token },
-      });
+      const response = await api.post(
+        `/comments/${id}`,
+        { content },
+        {
+          headers: { "x-access-token": token },
+        }
+      );
       if (response.status === 201) {
         toast.success("Comentario publicado con éxito.", {
           position: toast.POSITION.BOTTOM_LEFT,
           autoClose: 1500,
         });
-        getComments()
-        setContent('')
-        setCommentCount(commentCount + 1)
+        getComments();
+        setContent("");
+        setCommentCount(commentCount + 1);
       }
     } catch (error) {
       toast.error("Error inesperado. Inténtalo de nuevo más tarde.", {
@@ -112,27 +115,19 @@ export default function PostDetail({ params }) {
   return (
     <>
       <div className="mb-16">
-        <div className="w-screen h-16 bg-primary-100 flex items-center p-4">
-          <h2 className="text-2xl font-semibold">
-            Publicación de {post?.author?.username}
-          </h2>
-        </div>
-        <article className="w-screen flex justify-center items-center flex-col p-6 pb-0 border-b-[1px] border-bg-300">
-          <div className="h-12 w-screen flex justify-start items-center gap-4 p-6">
-            <img
-              src={post?.author?.avatar}
-              alt={post?.author?.username}
-              className="w-12 rounded-full"
-              onClick={handleClickUser}
+        <Header title={`Publicación de ${post?.author?.username}`}/>
+        <article className="w-screen flex flex-col p-6 pb-0 border-b-[1px] border-bg-300">
+          <div className="flex items-center gap-4">
+            <UserCard
+              username={post?.author?.username}
+              avatar={post?.author?.avatar}
             />
-            <p className="font-medium text-xl" onClick={handleClickUser}>
-              {post?.author?.username}
-            </p>
+            <h3 className="text-lg font-bold">{post?.author?.username}</h3>
           </div>
-          <p className="overflow-x-hidden whitespace-pre-wrap break-all mt-4 w-screen px-8">
-            {post.content}
+          <p className="overflow-x-hidden whitespace-pre-wrap break-all mt-4">
+            {post?.content}
           </p>
-          <div className="h-12 w-screen flex items-center justify-around p-8">
+          <div className="h-12 flex items-center justify-around py-4">
             <span className="flex items-center gap-1">
               {isLiked ? (
                 <IoHeartSharp size={20} onClick={handleClickHeart} />
@@ -149,26 +144,19 @@ export default function PostDetail({ params }) {
         </article>
         <div className="py-4 flex gap-6 flex-col">
           <h2 className="text-2xl text-center mt-4">Comentarios</h2>
-          <form onSubmit={handleSubmit} className="flex items-start flex-col mb-4">
-            <div className="h-12 w-screen flex justify-start items-center gap-4 px-6 py-4">
-              <img
-                src={avatar}
-                alt={username}
-                className="w-10 rounded-full"
-                onClick={handleClickUser}
-              />
-              <p className="font-medium text-lg" onClick={handleClickUser}>
-                {username}
-              </p>
+          <form onSubmit={handleSubmit} className="grid grid-cols-6">
+            <div className="flex justify-center">
+              <UserCard username={username} avatar={avatar} />
             </div>
-            <div>
+            <div className="col-span-5 pr-4">
+              <h3 className="text-lg font-bold">{username}</h3>
               <TextareaAutosize
-                className="w-3/4 mt-6 resize-none bg-bg-100 outline-none border-b-2 border-primary-100 rounded-sm px-2 text-text-200 text-lg ml-12"
+                className="w-full mt-2 resize-none bg-bg-100 outline-none border-b-2 border-primary-100 rounded-sm text-text-200"
                 autoFocus
                 onChange={handleChange}
                 value={content}
               />
-              <div className="w-screen flex justify-end py-2 px-6">
+              <div className="flex justify-end">
                 <h4>
                   <span className={disabledButton ? "text-red-500" : ""}>
                     {content.length}
@@ -176,14 +164,14 @@ export default function PostDetail({ params }) {
                   / 200
                 </h4>
               </div>
+              <button
+                className={
+                  disabledButton ? "disabled-button" : "button"
+                }
+              >
+                Comentar
+              </button>
             </div>
-            <button
-              className={
-                disabledButton ? "disabled-button mx-8" : "button mx-8"
-              }
-            >
-              Comentar
-            </button>
           </form>
           {comments.length !== 0 &&
             comments.map(({ id, content, author }) => {

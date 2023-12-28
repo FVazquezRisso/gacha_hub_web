@@ -2,15 +2,17 @@
 import { useState, useEffect } from "react";
 import { api } from "@/services/apiConfig";
 import PostCard from "@/app/ui/PostCard";
-import { PostInterface } from "@/types/posts.types";
+import { PostInterface } from "@/types/types";
 import { oswald } from "@/app/ui/fonts";
 import UserCard from "../../../ui/UserCard";
+import { UserInterface, PostInterface } from "../../../../types/types.ts";
+import Header from '../../../ui/Header'
 
 export default function Profile({ params }) {
   const { username } = params;
   const currentUser = localStorage.getItem("username");
-  const [userData, setUserData] = useState({});
-  const [posts, setPosts] = useState([]);
+  const [userData, setUserData] = useState<UserInterface | null>(null);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
 
   const getData = async () => {
     try {
@@ -43,17 +45,15 @@ export default function Profile({ params }) {
 
   return (
     <div className="mb-16">
-      <div className="w-screen h-16 bg-primary-100 flex items-center p-4">
-        <h2 className="text-2xl font-semibold">Perfil de {username}</h2>
-      </div>
-      <div className='mx-4'>
-      <UserCard username={username} avatar={userData.avatar} />
+      <Header title={`Perfil de ${username}`} />
+      <div className="m-4">
+        <UserCard username={username} avatar={userData?.avatar} />
       </div>
       <h3 className="text-xl mx-8 mt-4">Biografía:</h3>
       <p className="overflow-x-hidden whitespace-pre-wrap break-all px-8 pb-4 mt-2 border-b-[1px] border-bg-300">
-        {userData.bio}
+        {userData?.bio}
       </p>
-      <div className="flex flex-col mt-8 px-8">
+      <div className="flex flex-col mt-8">
         <h2 className="text-2xl text-center">Publicaciones de {username}</h2>
         {posts.length !== 0 &&
           posts.map((post: PostInterface) => {
