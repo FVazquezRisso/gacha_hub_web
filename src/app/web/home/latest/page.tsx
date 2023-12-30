@@ -2,7 +2,7 @@
 import PostCard from "../../../ui/PostCard";
 import { useState, useEffect } from "react";
 import { api } from "../../../../services/apiConfig";
-import { PostInterface } from "@/types/posts.types";
+import { PostInterface } from "@/types/types";
 import { useInView } from "react-intersection-observer";
 import { oswald } from "@/app/ui/fonts";
 

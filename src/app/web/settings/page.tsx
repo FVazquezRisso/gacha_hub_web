@@ -1,6 +1,7 @@
 "use client";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import Header from '../../ui/Header'
 
 export default function Settings() {
   const router = useRouter();
@@ -12,9 +13,7 @@ export default function Settings() {
 
   return (
     <>
-      <div className="w-screen h-16 bg-primary-100 flex items-center p-4">
-        <h2 className="text-2xl font-semibold">Configuración</h2>
-      </div>
+      <Header title='Configuración' />
       <div className="w-screen">
         <div
           className="p-4 flex items-center gap-4 border-b-[1px] border-text-200"
