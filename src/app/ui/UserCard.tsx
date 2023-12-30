@@ -10,7 +10,11 @@ export default function UserCard({ username, avatar }) {
 
   return (
     <div onClick={handleClickUser}>
-      <img src={avatar} alt={username} className='w-12 rounded-full' />
+      <img
+        src={avatar}
+        alt={username}
+        className="w-12 aspect-square object-cover rounded-full"
+      />
     </div>
   );
 }

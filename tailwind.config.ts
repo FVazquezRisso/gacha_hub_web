@@ -29,8 +29,12 @@ const config: Config = {
           300: colors.bg_300,
         },
         error: {
-          100: colors.error_100  
-        }
+          100: colors.error_100,
+        },
+      },
+
+      aspectRatio: {
+        "3/1": "3 / 1",
       },
     },
   },

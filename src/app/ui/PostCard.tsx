@@ -51,7 +51,7 @@ export default function PostCard({
   return (
     <div className="border-b-[1px] border-bg-300 grid grid-cols-6 pt-4">
       <div className="col-span-1 flex justify-center">
-        <UserCard avatar={author.avatar} />
+        <UserCard avatar={author.avatar} username={author.username} />
       </div>
       <div className='col-span-5 pr-4'>
         <h3 className='text-lg font-bold'>

@@ -26,11 +26,11 @@ export interface CommentInterface {
 export interface UserInterface {
   username: string;
   avatar: string;
+  banner: string;
   role: string;
   bio: string;
   discordUsername: string;
   isVerified: boolean;
-
 }
 
 interface Author {
