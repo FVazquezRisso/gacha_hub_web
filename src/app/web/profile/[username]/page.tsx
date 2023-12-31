@@ -22,14 +22,16 @@ export default function Profile({ params }) {
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [editBio, setEditBio] = useState(false);
-  const [newBio, setNewBio] = useState(null);
+  const [newBio, setNewBio] = useState('');
   const [disabledButtonBio, setDisabledButtonBio] = useState(false);
   const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
   const token = localStorage.getItem("token");
 
   const getData = async () => {
     try {
-      const response = await api.get(`/users/${username}`);
+      const response = await api.get(`/users/${username}`, {
+        headers: { "x-access-token": token },
+      });
       if (response.status === 200) {
         setUserData(response.data);
         setNewBio(response.data.bio);
@@ -178,9 +180,9 @@ export default function Profile({ params }) {
           bio: newBio,
         },
         { headers: { "x-access-token": token } }
-        );
-        
-        if (res.status === 204) {
+      );
+
+      if (res.status === 204) {
         setEditBio(false);
         toast.success("La bio se ha actualizado con éxito.", {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -194,6 +196,28 @@ export default function Profile({ params }) {
         autoClose: 2000,
       });
       console.erro(error);
+    }
+  };
+
+  const handleFollow = async () => {
+    try {
+      const method = userData?.isFollowing ? "delete" : "post";
+      const headers = {
+        headers: { "x-access-token": token },
+      };
+      const response = await api[method](`/follows/${username}`, headers, headers);
+      if (response.status === 200) {
+        getData();
+      }
+    } catch (error) {
+      toast.error(
+        "Error al seguir al usuario. Por favor, inténtalo de nuevo.",
+        {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: 2000,
+        }
+      );
+      console.error(error);
     }
   };
 
@@ -226,7 +250,7 @@ export default function Profile({ params }) {
             )}
           </div>
           {!editBio ? (
-            <p className="overflow-x-hidden whitespace-pre-wrap break-all pb-4 mt-2">
+            <p className="overflow-x-hidden whitespace-pre-wrap pb-4 mt-2">
               {userData?.bio}
             </p>
           ) : (
@@ -244,7 +268,9 @@ export default function Profile({ params }) {
                 /200
               </h4>
               <button
-                className={disabledButtonBio ? "disabled-button" : "button"}
+                className={
+                  disabledButtonBio ? "disabled-button mb-4" : "button mb-4"
+                }
                 disabled={disabledButtonBio}
                 onClick={handleSubmitBio}
               >
@@ -252,6 +278,27 @@ export default function Profile({ params }) {
               </button>
             </div>
           )}
+          <div className="flex justify-between">
+            <div className="flex gap-4">
+              <h4 className="text-text-300">
+                <span className="font-bold text-text-100">
+                  {userData?.followingCount}
+                </span>{" "}
+                Siguiendo
+              </h4>
+              <h4 className="text-text-300">
+                <span className="font-bold text-text-100">
+                  {userData?.followersCount}
+                </span>{" "}
+                Seguidores
+              </h4>
+            </div>
+            {currentUser !== username && (
+              <button onClick={handleFollow}>
+                {userData?.isFollowing ? "Siguiendo" : "Seguir"}
+              </button>
+            )}
+          </div>
         </div>
         <div className="flex flex-col mt-4 border-t-[1px] border-bg-300">
           {posts.length !== 0 &&

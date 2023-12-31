@@ -23,11 +23,11 @@ export default function CommentCard({ content, author }: comment) {
   return (
     <div className="grid grid-cols-6 pt-4">
       <div className="col-span-1 flex justify-center  ">
-        <UserCard avatar={author.avatar} />
+        <UserCard username={author.username} avatar={author.avatar} />
       </div>
       <div className="col-span-5 pr-4">
         <h3 className="text-lg font-bold">{author.username}</h3>
-        <p className="overflow-x-hidden whitespace-pre-wrap break-all">
+        <p className="overflow-x-hidden whitespace-pre-wrap">
           {content}
         </p>
       </div>

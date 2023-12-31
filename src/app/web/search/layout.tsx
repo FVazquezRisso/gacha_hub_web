@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { IoMdCreate } from "react-icons/io";
 
 export default function HomeLayout({
   children,
@@ -9,42 +8,45 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const router = useRouter()
+  const router = useRouter();
 
   const handleClickCreatePost = () => {
-    router.push('/web/post/create')
-  }
+    router.push("/web/post/create");
+  };
 
   return (
     <>
       <div>
         <div className="h-16 bg-primary-100 flex items-center justify-around fixed w-screen text-2xl">
           <Link
-            href="/web/home/latest"
+            href="/web/search/users"
             className={`${
-              pathname === "/web/home/latest" &&
+              pathname === "/web/search/users" &&
               "border-b-2 border-text-100 text-text-100"
             } h-full flex items-center w-1/2 justify-center font-semibold`}
           >
-            Nuevo
+            Usuarios
           </Link>
           <Link
-            href="/web/home/following"
+            href="/web/search/posts"
             className={`${
-              pathname === "/web/home/following" &&
+              pathname === "/web/search/posts" &&
               "border-b-2 border-text-100 text-text-100"
             } h-full flex items-center w-1/2 justify-center font-semibold`}
           >
-            Siguiendo
+            Publicaciones
           </Link>
+          {/* <Link
+            href="/web/search/groups"
+            className={`${
+              pathname === "/web/search/groups" &&
+              "border-b-2 border-text-100 text-text-100"
+            } h-full flex items-center w-1/2 justify-center font-semibold`}
+          >
+            Grupos
+          </Link> */}
         </div>
         {children}
-        <div
-          className="h-14 w-14 bg-primary-100 rounded-full border-4 border-primary-100 fixed bottom-[5.5rem] right-6 flex items-center justify-center"
-          onClick={handleClickCreatePost}
-        >
-          <IoMdCreate size={32} className="text-text-200" />
-        </div>
       </div>
     </>
   );

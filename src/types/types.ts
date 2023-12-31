@@ -17,10 +17,7 @@ export interface CommentInterface {
   updatedAt: string;
   deletedAt: any;
   PostId: number;
-  author: author;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: any;
+  author: Author;
 }
 
 export interface UserInterface {
