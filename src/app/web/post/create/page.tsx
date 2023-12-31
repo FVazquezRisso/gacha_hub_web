@@ -54,7 +54,11 @@ export default function PostCreate() {
         </div>
         <div className="w-screen flex justify-center items-center flex-col p-4 pb-0">
           <div className="h-16 w-screen flex justify-start items-center gap-4 p-4">
-            <img src={avatar} alt={username} className="w-12 rounded-full" />
+            <img
+              src={avatar}
+              alt={username}
+              className="w-12 aspect-square object-cover rounded-full"
+            />
             <p className="font-medium text-xl">{username}</p>
           </div>
           <TextareaAutosize

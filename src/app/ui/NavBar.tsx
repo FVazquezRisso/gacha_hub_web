@@ -20,7 +20,7 @@ export default function NavBar() {
         <IoHome size={32} />
       </Link>
       <Link
-        href="/web/search"
+        href="/web/search/users"
         className={`${
           pathname.startsWith("/web/search")
             ? "text-text-100 border-b-4"

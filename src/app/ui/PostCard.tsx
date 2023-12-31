@@ -58,7 +58,7 @@ export default function PostCard({
           {author.username}
         </h3>
         <p
-          className="overflow-x-hidden whitespace-pre-wrap break-all"
+          className="overflow-x-hidden whitespace-pre-wrap"
           onClick={handleClickCard}
         >
           {contentSplitted}

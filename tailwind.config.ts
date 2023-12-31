@@ -22,6 +22,7 @@ const config: Config = {
         text: {
           100: colors.text_100,
           200: colors.text_200,
+          300: colors.text_300,
         },
         bg: {
           100: colors.bg_100,

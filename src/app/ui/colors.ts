@@ -7,6 +7,7 @@ export default {
   accent_200: "#345e37",
   text_100: "#FFFFFF",
   text_200: "#e0e0e0",
+  text_300: "#929292",
   bg_100: "#1E1E1E",
   bg_200: "#2d2d2d",
   bg_300: "#454545",
