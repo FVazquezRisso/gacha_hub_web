@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiFillEdit } from "react-icons/ai";
 import TextareaAutosize from "react-textarea-autosize";
+import LoadingScreen from '../../../ui/LoadingScreen'
 
 export default function Profile({ params }) {
   const { username } = params;
@@ -24,6 +25,7 @@ export default function Profile({ params }) {
   const [editBio, setEditBio] = useState(false);
   const [newBio, setNewBio] = useState('');
   const [disabledButtonBio, setDisabledButtonBio] = useState(false);
+  const [isLoading, setIsLoading] = useState(true)
   const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
   const token = localStorage.getItem("token");
 
@@ -38,6 +40,8 @@ export default function Profile({ params }) {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -225,6 +229,10 @@ export default function Profile({ params }) {
     getData();
     getPosts();
   }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />
+  }
 
   return (
     <>

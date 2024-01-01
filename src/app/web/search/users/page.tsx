@@ -69,7 +69,9 @@ export default function SearchUser() {
             <p
               className={`${oswald.className} text-3xl text-center text-primary-200`}
             >
-              ¡Ups! No hay resultados
+              {searchValue.length < 4
+                ? "Ingresa al menos 4 caracteres"
+                : "¡Ups! No hay resultados"}
             </p>
           </div>
         )}

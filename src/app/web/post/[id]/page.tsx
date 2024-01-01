@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { CommentInterface, PostInterface } from "../../../../types/types.ts";
 import UserCard from "../../../ui/UserCard";
 import Header from '../../../ui/Header'
+import LoadingScreen from '../../../ui/LoadingScreen'
 
 export default function PostDetail({ params }) {
   const { id } = params;
@@ -25,6 +26,7 @@ export default function PostDetail({ params }) {
   const [disabledButton, setDisabledButton] = useState(true);
   const [content, setContent] = useState("");
   const [commentCount, setCommentCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true)
 
   const getPost = async () => {
     try {
@@ -37,6 +39,8 @@ export default function PostDetail({ params }) {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -75,7 +79,7 @@ export default function PostDetail({ params }) {
   const handleChange = (event) => {
     const { value } = event.target;
     setContent(value);
-    setDisabledButton(value.length < 5 || value.length > 200);
+    setDisabledButton(value.replace(/\s+/g, ' ').length < 5 || value.replace(/\s+/g, ' ').length > 200);
   };
 
   const handleSubmit = async (event) => {
@@ -84,7 +88,7 @@ export default function PostDetail({ params }) {
       const token = localStorage.getItem("token");
       const response = await api.post(
         `/comments/${id}`,
-        { content },
+        { content: content.replace(/\s+/g, " ") },
         {
           headers: { "x-access-token": token },
         }
@@ -111,6 +115,10 @@ export default function PostDetail({ params }) {
     getPost();
     getComments();
   }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />
+  }
 
   return (
     <>

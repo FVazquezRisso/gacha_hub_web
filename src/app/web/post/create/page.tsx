@@ -16,7 +16,10 @@ export default function PostCreate() {
   const handleChange = (event) => {
     const { value } = event.target;
     setContent(value);
-    setDisabledButton(value.length < 10 || value.length > 1000);
+    setDisabledButton(
+      value.replace(/\s+/g, " ").length < 10 ||
+        value.replace(/\s+/g, " ").length > 1000
+    );
   };
 
   const handleSubmit = async (event) => {
@@ -25,17 +28,17 @@ export default function PostCreate() {
       const token = localStorage.getItem("token");
       const response = await api.post(
         "/posts",
-        { content },
+        { content: content.replace(/\s+/g, " ") },
         { headers: { "x-access-token": token } }
       );
       if (response.status === 201) {
-         toast.success("Publicación creada con éxito.", {
-           position: toast.POSITION.BOTTOM_LEFT,
-           autoClose: 1500,
-         });
-         setTimeout(() => {
-           router.push("/web/home/latest");
-         }, 1500);
+        toast.success("Publicación creada con éxito.", {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: 1500,
+        });
+        setTimeout(() => {
+          router.push("/web/home/latest");
+        }, 1500);
       }
     } catch (error) {
       toast.error("Error inesperado. Inténtalo de nuevo más tarde.", {
