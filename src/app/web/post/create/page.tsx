@@ -24,6 +24,7 @@ export default function PostCreate() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setDisabledButton(true)
     try {
       const token = localStorage.getItem("token");
       const response = await api.post(
@@ -37,7 +38,7 @@ export default function PostCreate() {
           autoClose: 1500,
         });
         setTimeout(() => {
-          router.push("/web/home/latest");
+          router.back();
         }, 1500);
       }
     } catch (error) {

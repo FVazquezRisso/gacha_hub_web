@@ -28,6 +28,10 @@ export interface UserInterface {
   bio: string;
   discordUsername: string;
   isVerified: boolean;
+  followingCount: number;
+  followersCount: number;
+  isFollowing: boolean;
+  createdAt: string;
 }
 
 interface Author {

@@ -61,6 +61,7 @@ export default function Following() {
               likeCount={post.likeCount}
               userLikedPost={post.userLikedPost}
               commentCount={post.commentCount}
+              createdAt={post.createdAt}
             />
           );
         })}

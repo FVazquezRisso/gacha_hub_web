@@ -51,6 +51,7 @@ export default function SearchPost() {
                 likeCount={post.likeCount}
                 userLikedPost={post.userLikedPost}
                 commentCount={post.commentCount}
+                createdAt={post.createdAt}
               />
             );
           })
