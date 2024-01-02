@@ -12,7 +12,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiFillEdit } from "react-icons/ai";
 import TextareaAutosize from "react-textarea-autosize";
-import LoadingScreen from '../../../ui/LoadingScreen'
+import LoadingScreen from "../../../ui/LoadingScreen";
+import { formatDate } from "../../../../utils/convertDate.ts";
 
 export default function Profile({ params }) {
   const { username } = params;
@@ -23,9 +24,9 @@ export default function Profile({ params }) {
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [editBio, setEditBio] = useState(false);
-  const [newBio, setNewBio] = useState('');
+  const [newBio, setNewBio] = useState("");
   const [disabledButtonBio, setDisabledButtonBio] = useState(false);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
   const token = localStorage.getItem("token");
 
@@ -209,7 +210,11 @@ export default function Profile({ params }) {
       const headers = {
         headers: { "x-access-token": token },
       };
-      const response = await api[method](`/follows/${username}`, headers, headers);
+      const response = await api[method](
+        `/follows/${username}`,
+        headers,
+        headers
+      );
       if (response.status === 200) {
         getData();
       }
@@ -231,12 +236,12 @@ export default function Profile({ params }) {
   }, []);
 
   if (isLoading) {
-    return <LoadingScreen />
+    return <LoadingScreen />;
   }
 
   return (
     <>
-      <div className="mb-16">
+      <div className='mb-16'>
         <Header title={`Perfil de ${username}`} />
         <div>
           <img
@@ -258,7 +263,7 @@ export default function Profile({ params }) {
             )}
           </div>
           {!editBio ? (
-            <p className="overflow-x-hidden whitespace-pre-wrap pb-4 mt-2">
+            <p className="overflow-x-hidden whitespace-pre-wrap pb-2 mt-2">
               {userData?.bio}
             </p>
           ) : (
@@ -286,7 +291,8 @@ export default function Profile({ params }) {
               </button>
             </div>
           )}
-          <div className="flex justify-between">
+          <span className='text-text-300'>Miembro desde: {formatDate(userData?.createdAt, true)}</span>
+          <div className="flex justify-between mt-2">
             <div className="flex gap-4">
               <h4 className="text-text-300">
                 <span className="font-bold text-text-100">
@@ -320,6 +326,7 @@ export default function Profile({ params }) {
                   likeCount={post.likeCount}
                   userLikedPost={post.userLikedPost}
                   commentCount={post.commentCount}
+                  createdAt={post.createdAt}
                 />
               );
             })}
@@ -332,7 +339,7 @@ export default function Profile({ params }) {
             </div>
           )}
           {editingProfile && (
-            <div className="no-scroll-container absolute top-0 z-10 bg-black bg-opacity-80">
+            <div className="no-scroll-container top-0 z-10 bg-black bg-opacity-80 fixed">
               <div className="flex flex-col gap-4 bg-primary-100 items-center py-8 px-12 text-xl rounded-md">
                 <label htmlFor="changeAvatarInput">Cambiar avatar</label>
                 <label htmlFor="changeBannerInput">Cambiar banner</label>
