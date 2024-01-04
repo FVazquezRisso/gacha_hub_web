@@ -8,27 +8,26 @@ import UserCard from "../../../ui/UserCard";
 import { UserInterface, PostInterface } from "../../../../types/types.ts";
 import Header from "../../../ui/Header";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { AiFillEdit } from "react-icons/ai";
 import TextareaAutosize from "react-textarea-autosize";
 import LoadingScreen from "../../../ui/LoadingScreen";
 import { formatDate } from "../../../../utils/convertDate.ts";
+import { notification } from '../../../../utils/notification.ts'
 
 export default function Profile({ params }) {
   const { username } = params;
+  const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
   const currentUser = localStorage.getItem("username");
+  const token = localStorage.getItem("token");
   const [userData, setUserData] = useState<UserInterface | null>(null);
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [editingProfile, setEditingProfile] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [editBio, setEditBio] = useState(false);
-  const [newBio, setNewBio] = useState("");
+  const [newBio, setNewBio] = useState(""); 
   const [disabledButtonBio, setDisabledButtonBio] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
-  const token = localStorage.getItem("token");
 
   const getData = async () => {
     try {
@@ -88,10 +87,10 @@ export default function Profile({ params }) {
 
   const uploadAvatar = async () => {
     if (!selectedAvatar) {
-      toast.warning("Por favor, selecciona una imagen antes de subirla.", {
-        position: toast.POSITION.BOTTOM_LEFT,
-        autoClose: 2000,
-      });
+      notification(
+        "warning",
+        "Por favor, selecciona una imagen antes de subirla."
+      );
       return;
     }
 
@@ -114,30 +113,27 @@ export default function Profile({ params }) {
         );
 
         if (res.status === 204) {
-          toast.success("El avatar se ha actualizado con éxito.", {
-            position: toast.POSITION.BOTTOM_LEFT,
-            autoClose: 2000,
-          });
+          notification("success", "El avatar se ha actualizado con éxito.");
           localStorage.setItem("avatar", response.data.data.url);
           getData();
         }
         setSelectedAvatar(null);
       }
     } catch (error) {
-      toast.error("Error al subir el avatar. Por favor, inténtalo de nuevo.", {
-        position: toast.POSITION.BOTTOM_LEFT,
-        autoClose: 1000,
-      });
+      notification(
+        "error",
+        "Error al subir el avatar. Por favor, inténtalo de nuevo."
+      );
       console.error(error);
     }
   };
 
   const uploadBanner = async () => {
     if (!selectedBanner) {
-      toast.warning("Por favor, selecciona una imagen antes de subirla.", {
-        position: toast.POSITION.BOTTOM_LEFT,
-        autoClose: 2000,
-      });
+      notification(
+        "warning",
+        "Por favor, selecciona una imagen antes de subirla."
+      );
       return;
     }
 
@@ -160,19 +156,16 @@ export default function Profile({ params }) {
         );
 
         if (res.status === 204) {
-          toast.success("El banner se ha actualizado con éxito.", {
-            position: toast.POSITION.BOTTOM_LEFT,
-            autoClose: 1000,
-          });
+          notification("success", "El banner se ha actualizado con éxito.");
           getData();
         }
         setSelectedBanner(null);
       }
     } catch (error) {
-      toast.error("Error al subir el banner. Por favor, inténtalo de nuevo.", {
-        position: toast.POSITION.BOTTOM_LEFT,
-        autoClose: 2000,
-      });
+      notification(
+        "error",
+        "Error al subir el banner. Por favor, inténtalo de nuevo."
+      );
       console.error(error);
     }
   };
@@ -189,17 +182,14 @@ export default function Profile({ params }) {
 
       if (res.status === 204) {
         setEditBio(false);
-        toast.success("La bio se ha actualizado con éxito.", {
-          position: toast.POSITION.BOTTOM_LEFT,
-          autoClose: 1000,
-        });
+        notification("success", "La bio se ha actualizado con éxito.");
         getData();
       }
     } catch (error) {
-      toast.error("Error al editar la bio. Por favor, inténtalo de nuevo.", {
-        position: toast.POSITION.BOTTOM_LEFT,
-        autoClose: 2000,
-      });
+      notification(
+        "error",
+        "Error al editar la bio. Por favor, inténtalo de nuevo."
+      );
       console.erro(error);
     }
   };
@@ -219,12 +209,9 @@ export default function Profile({ params }) {
         getData();
       }
     } catch (error) {
-      toast.error(
-        "Error al seguir al usuario. Por favor, inténtalo de nuevo.",
-        {
-          position: toast.POSITION.BOTTOM_LEFT,
-          autoClose: 2000,
-        }
+      notification(
+        "error",
+        "Error al seguir al usuario. Por favor, inténtalo de nuevo."
       );
       console.error(error);
     }
@@ -240,7 +227,6 @@ export default function Profile({ params }) {
   }
 
   return (
-    <>
       <div className='mb-16'>
         <Header title={`Perfil de ${username}`} />
         <div>
@@ -386,7 +372,5 @@ export default function Profile({ params }) {
           </div>
         </div>
       </div>
-      <ToastContainer />
-    </>
   );
 }
