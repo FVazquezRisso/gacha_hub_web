@@ -2,6 +2,8 @@
 import NavBar from "../ui/NavBar";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function WebLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -23,6 +25,7 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
     <>
       <main>{children}</main>
       {inApp && <NavBar />}
+      <ToastContainer />
     </>
   );
 }
