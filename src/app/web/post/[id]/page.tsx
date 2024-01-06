@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { api } from "../../../../services/apiConfig";
 import {
   IoHeartOutline,
@@ -9,16 +9,22 @@ import {
 import { VscComment } from "react-icons/vsc";
 import CommentCard from "@/app/ui/CommentCard";
 import { oswald } from "@/app/ui/fonts";
-import TextareaAutosize from "react-textarea-autosize";
 import { CommentInterface, PostInterface } from "../../../../types/types";
 import UserCard from "../../../ui/UserCard";
 import Header from "../../../ui/Header";
 import LoadingScreen from "../../../ui/LoadingScreen";
 import { formatDate } from "../../../../utils/convertDate";
 import { useRouter } from "next/navigation";
-import { notification } from "../../../../utils/notification.ts";
+import { notification } from "../../../../utils/notification";
+import TextEditor from "../../../ui/TextEditor";
 
-export default function PostDetail({ params }) {
+type props = {
+  params: {
+    id: number;
+  };
+};
+
+export default function PostDetail({ params }: props) {
   const { id } = params;
   const router = useRouter();
   const username = localStorage.getItem("username");
@@ -27,6 +33,8 @@ export default function PostDetail({ params }) {
   const [post, setPost] = useState<PostInterface | null>(null);
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [content, setContent] = useState("");
+  const [newPostContent, setNewPostContent] = useState("");
+  const [isEditingPost, setIsEditingPost] = useState(false)
   const [count, setCount] = useState({
     comments: 0,
     likes: 0,
@@ -35,7 +43,6 @@ export default function PostDetail({ params }) {
     isLoading: true,
     isMenuOpen: false,
     isLiked: false,
-    disabledButton: true,
   });
 
   const getPost = async () => {
@@ -48,6 +55,7 @@ export default function PostDetail({ params }) {
           comments: response.data.commentCount,
           likes: response.data.likeCount,
         });
+        setNewPostContent(response.data.content);
       }
     } catch (error) {
       console.error(error);
@@ -76,7 +84,7 @@ export default function PostDetail({ params }) {
       });
       if (response.status === 204) {
         setBoolean({ ...boolean, isLiked: !boolean.isLiked });
-        if (isLiked) {
+        if (boolean.isLiked) {
           setCount({ ...count, likes: count.likes - 1 });
         } else {
           setCount({ ...count, likes: count.likes + 1 });
@@ -87,23 +95,12 @@ export default function PostDetail({ params }) {
     }
   };
 
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setContent(value);
-    setBoolean({
-      ...boolean,
-      disabledButton:
-        value.replace(/\s+/g, " ").length < 5 ||
-        value.replace(/\s+/g, " ").length > 200,
-    });
-  };
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await api.post(
         `/comments/${id}`,
-        { content: content.replace(/\s+/g, " ") },
+        { content: content },
         {
           headers: { "x-access-token": token },
         }
@@ -113,7 +110,7 @@ export default function PostDetail({ params }) {
         getComments();
         setContent("");
         setCount({ ...count, comments: count.comments + 1 });
-        setBoolean({ ...boolean, disabledButton: true });
+        setBoolean({ ...boolean });
       }
     } catch (error) {
       notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
@@ -122,7 +119,7 @@ export default function PostDetail({ params }) {
   };
 
   const handleShowMenu = () => {
-    setBoolean({ ...boolean, isMenuOpen: !isMenuOpen });
+    setBoolean({ ...boolean, isMenuOpen: !boolean.isMenuOpen });
   };
 
   const handleClickDeletePost = async () => {
@@ -141,6 +138,30 @@ export default function PostDetail({ params }) {
     } catch (error) {
       notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
       console.error(error);
+    }
+  };
+
+  const handleClickEditPost = () => {
+    setBoolean({ ...boolean, isMenuOpen: false })
+    setIsEditingPost(true)
+  }
+
+  const handleSubmitModifiedPost = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await api.patch(`/posts/${id}`, { content: newPostContent }, {
+        headers: {
+        'x-access-token': token
+        }
+      })
+      if (response.status === 204) {
+        notification('success', 'El post de ha modificado satisfactoriamente.')
+        setIsEditingPost(false)
+        getPost()
+      }
+    } catch (error) {
+      notification('error', 'Ha ocurrido un error al intentar modificar el post.')
+      console.error(error)
     }
   };
 
@@ -169,6 +190,16 @@ export default function PostDetail({ params }) {
             <IoEllipsisVerticalSharp size={20} onClick={handleShowMenu} />
           )}
         </div>
+        {isEditingPost && (
+          <form onSubmit={handleSubmitModifiedPost}>
+            <TextEditor
+              content={newPostContent}
+              setContent={setNewPostContent}
+              buttonText="Guardar"
+              range={[10, 1000]}
+            />
+          </form>
+        )}
         <p className="overflow-x-hidden whitespace-pre-wrap break-all mt-4">
           {post?.content}
         </p>
@@ -198,25 +229,12 @@ export default function PostDetail({ params }) {
           </div>
           <div className="col-span-5 pr-4">
             <h3 className="text-lg font-bold">{username}</h3>
-            <TextareaAutosize
-              className="w-full mt-2 resize-none bg-bg-100 outline-none border-b-2 border-primary-100 rounded-sm text-text-200"
-              autoFocus
-              onChange={handleChange}
-              value={content}
+            <TextEditor
+              content={content}
+              setContent={setContent}
+              buttonText="Comentar"
+              range={[5, 200]}
             />
-            <div className="flex justify-end">
-              <h4>
-                <span className={boolean.disabledButton ? "text-red-500" : ""}>
-                  {content.length}
-                </span>
-                / 200
-              </h4>
-            </div>
-            <button
-              className={boolean.disabledButton ? "disabled-button" : "button"}
-            >
-              Comentar
-            </button>
           </div>
         </form>
         {comments.length !== 0 &&
@@ -243,7 +261,11 @@ export default function PostDetail({ params }) {
       {boolean.isMenuOpen && (
         <div className="no-scroll-container fixed top-0 z-10 bg-black bg-opacity-80">
           <div className="flex flex-col gap-4 bg-primary-100 items-center py-8 px-12 text-xl rounded-md">
-            <span>Editar</span>
+            <span
+              onClick={handleClickEditPost}
+            >
+              Editar
+            </span>
             <span onClick={handleClickDeletePost}>Eliminar</span>
             <span onClick={handleShowMenu} className="font-bold">
               Cerrar
