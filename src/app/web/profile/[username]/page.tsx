@@ -2,19 +2,23 @@
 import { useState, useEffect } from "react";
 import { api } from "@/services/apiConfig";
 import PostCard from "@/app/ui/PostCard";
-import { PostInterface } from "@/types/types";
+import { PostInterface, UserInterface } from "@/types/types";
 import { oswald } from "@/app/ui/fonts";
-import UserCard from "../../../ui/UserCard";
-import { UserInterface, PostInterface } from "../../../../types/types.ts";
 import Header from "../../../ui/Header";
 import axios from "axios";
 import { AiFillEdit } from "react-icons/ai";
-import TextareaAutosize from "react-textarea-autosize";
 import LoadingScreen from "../../../ui/LoadingScreen";
-import { formatDate } from "../../../../utils/convertDate.ts";
-import { notification } from "../../../../utils/notification.ts";
+import { formatDate } from "../../../../utils/convertDate";
+import { notification } from "../../../../utils/notification";
+import TextEditor from "../../../ui/TextEditor";
 
-export default function Profile({ params }) {
+type props = {
+  params: {
+    username: string;
+  };
+};
+
+export default function Profile({ params }: props) {
   const { username } = params;
   const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
   const currentUser = localStorage.getItem("username");
@@ -22,13 +26,12 @@ export default function Profile({ params }) {
   const [userData, setUserData] = useState<UserInterface | null>(null);
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [newBio, setNewBio] = useState("");
-  const [editBio, setEditBio] = useState(false)
+  const [editBio, setEditBio] = useState(false);
   const [boolean, setBoolean] = useState({
     editingProfile: false,
-    disabledButtonBio: false,
     isLoading: true,
   });
-  const [selectedAvatar, setSelectedAvatar] = useState(null)
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
 
   const getData = async () => {
@@ -61,8 +64,8 @@ export default function Profile({ params }) {
   };
 
   const handleClickChangeBio = () => {
-    setEditBio(true)
-    setBoolean((prevState) => ({ ...prevState, editingProfile: false}));
+    setEditBio(true);
+    setBoolean((prevState) => ({ ...prevState, editingProfile: false }));
   };
 
   const handleChangeBio = (event) => {
@@ -172,7 +175,8 @@ export default function Profile({ params }) {
     }
   };
 
-  const handleSubmitBio = async () => {
+  const handleSubmitBio = async (event) => {
+    event.preventDefault()
     try {
       const res = await api.patch(
         `/users/${username}`,
@@ -183,7 +187,7 @@ export default function Profile({ params }) {
       );
 
       if (res.status === 204) {
-        setEditBio(false)
+        setEditBio(false);
         notification("success", "La bio se ha actualizado con éxito.");
         getData();
       }
@@ -255,31 +259,14 @@ export default function Profile({ params }) {
             {userData?.bio}
           </p>
         ) : (
-          <div>
-            <TextareaAutosize
-              className="mt-6 resize-none bg-bg-100 outline-none border-b-2 border-primary-100 rounded-sm w-full px-2 text-text-200 text-lg"
-              autoFocus
-              value={newBio}
-              onChange={handleChangeBio}
+          <form onSubmit={handleSubmitBio}>
+            <TextEditor
+              content={newBio}
+              setContent={setNewBio}
+              buttonText="Guardar"
+              range={[0, 200]}
             />
-            <h4 className="text-right block">
-              <span className={boolean.disabledButtonBio ? "text-red-500" : ""}>
-                {newBio ? newBio.length : 0}
-              </span>
-              /200
-            </h4>
-            <button
-              className={
-                boolean.disabledButtonBio
-                  ? "disabled-button mb-4"
-                  : "button mb-4"
-              }
-              disabled={boolean.disabledButtonBio}
-              onClick={handleSubmitBio}
-            >
-              Guardar
-            </button>
-          </div>
+          </form>
         )}
         <span className="text-text-300">
           Miembro desde: {formatDate(userData?.createdAt, true)}

@@ -1,11 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import UserCard from "../ui/UserCard";
-import { timeAgo } from '../../utils/convertDate.ts'
+import { timeAgo } from '../../utils/convertDate'
 
 type comment = {
   content: string;
   author: author;
+  createdAt: string;
 };
 
 type author = {
