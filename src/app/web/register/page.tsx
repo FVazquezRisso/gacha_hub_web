@@ -6,8 +6,7 @@ import { validateFields } from "../../../utils/validateField";
 import { api } from "../../../services/apiConfig";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { notification } from '../../../utils/notification.ts'
 
 export default function Register() {
   const router = useRouter();
@@ -33,19 +32,13 @@ export default function Register() {
     try {
       const response = await api.post("/users/register", data);
       if (response.status === 201) {
-        toast.success("Cuenta creada con éxito.", {
-          position: toast.POSITION.BOTTOM_LEFT,
-          autoClose: 1500,
-        })
+        notification("success", "Cuenta creada con éxito.");
         setTimeout(() => {
           router.push("/web/login");
         }, 1500);
       }
     } catch (error) {
-      toast.error("Error inesperado. Inténtalo de nuevo más tarde.", {
-        position: toast.POSITION.BOTTOM_LEFT,
-        autoClose: 2000,
-      });
+      notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
       console.error(error);
     }
   };
@@ -59,7 +52,6 @@ export default function Register() {
   }, [data]);
 
   return (
-    <>
       <form onSubmit={handleSubmit} className="no-scroll-container gap-4">
         <div className="flex items-center">
           <Link href="/">
@@ -121,7 +113,5 @@ export default function Register() {
           Ya tengo una cuenta
         </Link>
       </form>
-      <ToastContainer />
-    </>
   );
 }

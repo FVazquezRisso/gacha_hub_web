@@ -1,10 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import UserCard from "../ui/UserCard";
+import { timeAgo } from '../../utils/convertDate'
 
 type comment = {
   content: string;
   author: author;
+  createdAt: string;
 };
 
 type author = {
@@ -13,7 +15,7 @@ type author = {
   role: string;
 };
 
-export default function CommentCard({ content, author }: comment) {
+export default function CommentCard({ content, author, createdAt }: comment) {
   const router = useRouter();
 
   const handleClickUser = () => {
@@ -21,15 +23,14 @@ export default function CommentCard({ content, author }: comment) {
   };
 
   return (
-    <div className="grid grid-cols-6 pt-4">
+    <div className="grid grid-cols-6 py-4 border-b-[1px] border-bg-300">
       <div className="col-span-1 flex justify-center  ">
         <UserCard username={author.username} avatar={author.avatar} />
       </div>
       <div className="col-span-5 pr-4">
         <h3 className="text-lg font-bold">{author.username}</h3>
-        <p className="overflow-x-hidden whitespace-pre-wrap">
-          {content}
-        </p>
+        <p className="overflow-x-hidden whitespace-pre-wrap">{content}</p>
+        <span className="text-text-300">{timeAgo(createdAt)}</span>
       </div>
     </div>
   );

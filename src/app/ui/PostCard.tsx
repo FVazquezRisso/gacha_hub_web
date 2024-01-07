@@ -6,6 +6,7 @@ import { PostInterface } from "@/types/types";
 import { useState, useEffect } from "react";
 import { api } from "@/services/apiConfig";
 import UserCard from "../ui/UserCard";
+import { timeAgo } from "../../utils/convertDate.ts";
 
 export default function PostCard({
   author,
@@ -14,6 +15,8 @@ export default function PostCard({
   userLikedPost,
   id,
   commentCount,
+  createdAt,
+  updatedAt,
 }: PostInterface) {
   const contentSplitted =
     content.length > 225 ? `${content.substring(0, 200)}...` : content;
@@ -53,16 +56,18 @@ export default function PostCard({
       <div className="col-span-1 flex justify-center">
         <UserCard avatar={author.avatar} username={author.username} />
       </div>
-      <div className='col-span-5 pr-4'>
-        <h3 className='text-lg font-bold'>
-          {author.username}
-        </h3>
+      <div className="col-span-5 pr-4">
+        <div>
+          <h3 className="text-lg font-bold">{author.username}</h3>
+        </div>
         <p
           className="overflow-x-hidden whitespace-pre-wrap"
           onClick={handleClickCard}
         >
           {contentSplitted}
         </p>
+        <span className="text-text-300">{timeAgo(createdAt)}</span>
+        {updatedAt !== createdAt && <span className="text-text-300"> - editado</span>}
         <div className="h-12 flex items-center justify-around">
           <span className="flex items-center gap-1">
             {isLiked ? (

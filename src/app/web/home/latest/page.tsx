@@ -5,11 +5,13 @@ import { api } from "../../../../services/apiConfig";
 import { PostInterface } from "@/types/types";
 import { useInView } from "react-intersection-observer";
 import { oswald } from "@/app/ui/fonts";
+import LoadingScreen from '../../../ui/LoadingScreen'
 
 export default function Latest() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePosts, setHasMorePosts] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
   const { ref, inView } = useInView({
     threshold: 0,
   });
@@ -31,12 +33,18 @@ export default function Latest() {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
   useEffect(() => {
     getPosts();
   }, [inView]);
+
+  if (isLoading) {
+    return <LoadingScreen />
+  }
 
   return (
     <div className="pt-16 pb-16">
@@ -51,6 +59,8 @@ export default function Latest() {
               likeCount={post.likeCount}
               userLikedPost={post.userLikedPost}
               commentCount={post.commentCount}
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
             />
           );
         })}

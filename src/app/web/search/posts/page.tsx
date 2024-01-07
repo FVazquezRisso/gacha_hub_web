@@ -25,7 +25,7 @@ export default function SearchPost() {
       }
     } else {
       setAllPosts([]);
-    }
+    } 
   };
 
   return (
@@ -51,6 +51,8 @@ export default function SearchPost() {
                 likeCount={post.likeCount}
                 userLikedPost={post.userLikedPost}
                 commentCount={post.commentCount}
+                createdAt={post.createdAt}
+                updatedAt={post.updatedAt}
               />
             );
           })
@@ -59,7 +61,9 @@ export default function SearchPost() {
             <p
               className={`${oswald.className} text-3xl text-center text-primary-200`}
             >
-              ¡Ups! No hay resultados
+              {searchValue.length < 4
+                ? "Ingresa al menos 4 caracteres"
+                : "¡Ups! No hay resultados"}
             </p>
           </div>
         )}
