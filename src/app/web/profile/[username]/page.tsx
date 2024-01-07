@@ -87,7 +87,7 @@ export default function Profile({ params }: props) {
   const uploadAvatar = async () => {
     if (!selectedAvatar) {
       notification(
-        "warning",
+        "warn",
         "Por favor, selecciona una imagen antes de subirla."
       );
       return;
@@ -130,7 +130,7 @@ export default function Profile({ params }: props) {
   const uploadBanner = async () => {
     if (!selectedBanner) {
       notification(
-        "warning",
+        "warn",
         "Por favor, selecciona una imagen antes de subirla."
       );
       return;
