@@ -1,14 +1,14 @@
 import TextareaAutosize from "react-textarea-autosize";
 import { useState, ChangeEvent } from "react";
 
-type props = {
+type Props = {
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
   buttonText: string;
   range: [number, number];
 };
 
-export default function TextEditor({ content, setContent, buttonText, range }: props) {
+export default function TextEditor({ content, setContent, buttonText, range }: Props) {
   const [disabledButton, setDisabledButton] = useState(true);
   const [minLength, maxLength] = range;
 

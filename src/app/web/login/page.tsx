@@ -1,33 +1,45 @@
 "use client";
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useState, useEffect } from "react";
-import { api } from "../../../services/apiConfig";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { api } from "@/services/apiConfig";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 
+type Token = {
+  username: string;
+  avatar: string;
+  role: string;
+  isVerified: string;
+};
+
+type Data = {
+  username: string;
+  password: string;
+};
+
 export default function Register() {
   const router = useRouter();
-  const [data, setData] = useState({});
+  const [data, setData] = useState<Data>({ username: "", password: "" });
 
   const [disabledButton, setDisabledButton] = useState(true);
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setData({ ...data, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await api.post("/users/login", data);
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        const decoded = jwtDecode(response.data.token);
+        const decoded: Token = jwtDecode(response.data.token);
         localStorage.setItem("username", decoded.username);
-        localStorage.setItem('avatar', decoded.avatar)
+        localStorage.setItem("avatar", decoded.avatar);
         localStorage.setItem("role", decoded.role);
         localStorage.setItem("isVerified", decoded.isVerified);
         router.push("/web/home/latest");

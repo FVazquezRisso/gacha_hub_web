@@ -1,7 +1,12 @@
 'use client'
 import { useRouter } from 'next/navigation'
 
-export default function UserCard({ username, avatar }) {
+type Props = {
+  username: any;
+  avatar: any;
+}
+
+export default function UserCard({ username, avatar }: Props) {
   const router = useRouter()
 
   const handleClickUser = () => {

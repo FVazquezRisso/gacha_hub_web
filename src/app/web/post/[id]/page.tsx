@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, FormEvent } from "react";
-import { api } from "../../../../services/apiConfig";
+import { api } from "@/services/apiConfig";
 import {
   IoHeartOutline,
   IoHeartSharp,
@@ -9,22 +9,22 @@ import {
 import { VscComment } from "react-icons/vsc";
 import CommentCard from "@/app/ui/CommentCard";
 import { oswald } from "@/app/ui/fonts";
-import { CommentInterface, PostInterface } from "../../../../types/types";
-import UserCard from "../../../ui/UserCard";
-import Header from "../../../ui/Header";
-import LoadingScreen from "../../../ui/LoadingScreen";
-import { formatDate } from "../../../../utils/convertDate";
+import { CommentInterface, PostInterface } from "@/types/types";
+import UserCard from "@/app/ui/UserCard";
+import Header from "@/app/ui/Header";
+import LoadingScreen from "@/app/ui/LoadingScreen";
+import { formatDate } from "@/utils/convertDate";
 import { useRouter } from "next/navigation";
-import { notification } from "../../../../utils/notification";
-import TextEditor from "../../../ui/TextEditor";
+import { notification } from "@/utils/notification";
+import TextEditor from "@/app/ui/TextEditor";
 
-type props = {
+type Props = {
   params: {
     id: number;
   };
 };
 
-export default function PostDetail({ params }: props) {
+export default function PostDetail({ params }: Props) {
   const { id } = params;
   const router = useRouter();
   const username = localStorage.getItem("username");
@@ -148,7 +148,7 @@ export default function PostDetail({ params }: props) {
     setIsEditingPost(true);
   };
 
-  const handleSubmitModifiedPost = async (event) => {
+  const handleSubmitModifiedPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await api.patch(

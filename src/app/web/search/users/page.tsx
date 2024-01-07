@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { api } from "../../../../services/apiConfig";
+import { api } from "@/services/apiConfig";
 import { oswald } from "@/app/ui/fonts";
 import { UserInterface } from "@/types/types";
 import { ChangeEvent } from "react";

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function HomeLayout({
   children,
@@ -8,11 +8,6 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
-
-  const handleClickCreatePost = () => {
-    router.push("/web/post/create");
-  };
 
   return (
     <>

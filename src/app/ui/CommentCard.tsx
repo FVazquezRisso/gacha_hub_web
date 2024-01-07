@@ -3,19 +3,19 @@ import { useRouter } from "next/navigation";
 import UserCard from "../ui/UserCard";
 import { timeAgo } from '../../utils/convertDate'
 
-type comment = {
+type Comment = {
   content: string;
-  author: author;
+  author: Author;
   createdAt: string;
 };
 
-type author = {
+type Author = {
   username: string;
   avatar: string;
   role: string;
 };
 
-export default function CommentCard({ content, author, createdAt }: comment) {
+export default function CommentCard({ content, author, createdAt }: Comment) {
   const router = useRouter();
 
   const handleClickUser = () => {

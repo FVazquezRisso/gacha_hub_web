@@ -1,16 +1,16 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { api } from "@/services/apiConfig";
 import PostCard from "@/app/ui/PostCard";
 import { PostInterface, UserInterface } from "@/types/types";
 import { oswald } from "@/app/ui/fonts";
-import Header from "../../../ui/Header";
+import Header from "@/app/ui/Header";
 import axios from "axios";
 import { AiFillEdit } from "react-icons/ai";
-import LoadingScreen from "../../../ui/LoadingScreen";
-import { formatDate } from "../../../../utils/convertDate";
-import { notification } from "../../../../utils/notification";
-import TextEditor from "../../../ui/TextEditor";
+import LoadingScreen from "@/app/ui/LoadingScreen";
+import { formatDate } from "@/utils/convertDate";
+import { notification } from "@/utils/notification";
+import TextEditor from "@/app/ui/TextEditor";
 
 type props = {
   params: {
@@ -68,23 +68,17 @@ export default function Profile({ params }: props) {
     setBoolean((prevState) => ({ ...prevState, editingProfile: false }));
   };
 
-  const handleChangeBio = (event) => {
-    const { value } = event.target;
-    setNewBio(value);
-    setBoolean({ ...boolean, disabledButtonBio: value.length > 200 });
-  };
-
   const handleShowEditProfile = () => {
     setBoolean({ ...boolean, editingProfile: !boolean.editingProfile });
   };
 
-  const handleAvatarChange = (e) => {
+  const handleAvatarChange = (e: any) => {
     setSelectedAvatar(e.target.files[0]);
     setSelectedBanner(null);
     handleShowEditProfile();
   };
 
-  const handleBannerChange = (e) => {
+  const handleBannerChange = (e: any) => {
     setSelectedBanner(e.target.files[0]);
     setSelectedAvatar(null);
     handleShowEditProfile();
@@ -175,7 +169,7 @@ export default function Profile({ params }: props) {
     }
   };
 
-  const handleSubmitBio = async (event) => {
+  const handleSubmitBio = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
       const res = await api.patch(
@@ -196,7 +190,7 @@ export default function Profile({ params }: props) {
         "error",
         "Error al editar la bio. Por favor, inténtalo de nuevo."
       );
-      console.erro(error);
+      console.error(error);
     }
   };
 
@@ -307,6 +301,7 @@ export default function Profile({ params }: props) {
                 commentCount={post.commentCount}
                 createdAt={post.createdAt}
                 updatedAt={post.updatedAt}
+                deletedAt={post.deletedAt}
               />
             );
           })}

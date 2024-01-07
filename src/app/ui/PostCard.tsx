@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import { PostInterface } from "@/types/types";
 import { useState, useEffect } from "react";
 import { api } from "@/services/apiConfig";
-import UserCard from "../ui/UserCard";
-import { timeAgo } from "../../utils/convertDate";
+import UserCard from "@/app/ui/UserCard";
+import { timeAgo } from "@/utils/convertDate";
 
 export default function PostCard({
-  author,
   content,
   likeCount,
   userLikedPost,
@@ -17,6 +16,7 @@ export default function PostCard({
   commentCount,
   createdAt,
   updatedAt,
+  author
 }: PostInterface) {
   const contentSplitted =
     content.length > 225 ? `${content.substring(0, 200)}...` : content;

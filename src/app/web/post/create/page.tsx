@@ -1,10 +1,10 @@
 "use client";
 import { useState, FormEvent } from "react";
-import { api } from "../../../../services/apiConfig";
+import { api } from "@/services/apiConfig";
 import { useRouter } from "next/navigation";
-import { notification } from "../../../../utils/notification";
-import TextEditor from "../../../ui/TextEditor";
-import Header from "../../../ui/Header";
+import { notification } from "@/utils/notification";
+import TextEditor from "@/app/ui/TextEditor";
+import Header from "@/app/ui/Header";
 
 export default function PostCreate() {
   const router = useRouter();
