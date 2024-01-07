@@ -6,7 +6,7 @@ import { PostInterface } from "@/types/types";
 import { useState, useEffect } from "react";
 import { api } from "@/services/apiConfig";
 import UserCard from "../ui/UserCard";
-import { timeAgo } from "../../utils/convertDate.ts";
+import { timeAgo } from "../../utils/convertDate";
 
 export default function PostCard({
   author,

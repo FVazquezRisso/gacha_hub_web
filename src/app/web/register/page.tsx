@@ -6,7 +6,7 @@ import { validateFields } from "../../../utils/validateField";
 import { api } from "../../../services/apiConfig";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent } from "react";
-import { notification } from '../../../utils/notification.ts'
+import { notification } from '../../../utils/notification'
 
 export default function Register() {
   const router = useRouter();
