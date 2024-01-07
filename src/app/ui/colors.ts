@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const colors = {
   primary_100: "#2E8B57",
   primary_200: "#61bc84",
   primary_300: "#c6ffe6",
@@ -12,4 +12,5 @@ export default {
   bg_200: "#2d2d2d",
   bg_300: "#454545",
   error_100: "#fc3d3d",
-};
+}
+export default colors;

@@ -60,6 +60,7 @@ export default function Latest() {
               userLikedPost={post.userLikedPost}
               commentCount={post.commentCount}
               createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
             />
           );
         })}

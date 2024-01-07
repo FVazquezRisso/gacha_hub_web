@@ -34,7 +34,9 @@ export default function PostDetail({ params }: props) {
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [content, setContent] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
-  const [isEditingPost, setIsEditingPost] = useState(false)
+  const [isEditingPost, setIsEditingPost] = useState(false);
+  const isEdited = post?.createdAt !== post?.updatedAt 
+  const edited = isEdited ? "- editado" : ''
   const [count, setCount] = useState({
     comments: 0,
     likes: 0,
@@ -142,26 +144,33 @@ export default function PostDetail({ params }: props) {
   };
 
   const handleClickEditPost = () => {
-    setBoolean({ ...boolean, isMenuOpen: false })
-    setIsEditingPost(true)
-  }
+    setBoolean({ ...boolean, isMenuOpen: false });
+    setIsEditingPost(true);
+  };
 
   const handleSubmitModifiedPost = async (event) => {
     event.preventDefault();
     try {
-      const response = await api.patch(`/posts/${id}`, { content: newPostContent }, {
-        headers: {
-        'x-access-token': token
+      const response = await api.patch(
+        `/posts/${id}`,
+        { content: newPostContent },
+        {
+          headers: {
+            "x-access-token": token,
+          },
         }
-      })
+      );
       if (response.status === 204) {
-        notification('success', 'El post de ha modificado satisfactoriamente.')
-        setIsEditingPost(false)
-        getPost()
+        notification("success", "El post de ha modificado satisfactoriamente.");
+        setIsEditingPost(false);
+        getPost();
       }
     } catch (error) {
-      notification('error', 'Ha ocurrido un error al intentar modificar el post.')
-      console.error(error)
+      notification(
+        "error",
+        "Ha ocurrido un error al intentar modificar el post."
+      );
+      console.error(error);
     }
   };
 
@@ -204,7 +213,7 @@ export default function PostDetail({ params }: props) {
           {post?.content}
         </p>
         <span className="text-text-300">
-          {formatDate(post?.createdAt, false)}
+          {`${formatDate(post?.createdAt, false)} ${edited}`}
         </span>
         <div className="h-12 flex items-center justify-around py-4">
           <span className="flex items-center gap-1">
@@ -261,11 +270,7 @@ export default function PostDetail({ params }: props) {
       {boolean.isMenuOpen && (
         <div className="no-scroll-container fixed top-0 z-10 bg-black bg-opacity-80">
           <div className="flex flex-col gap-4 bg-primary-100 items-center py-8 px-12 text-xl rounded-md">
-            <span
-              onClick={handleClickEditPost}
-            >
-              Editar
-            </span>
+            <span onClick={handleClickEditPost}>Editar</span>
             <span onClick={handleClickDeletePost}>Eliminar</span>
             <span onClick={handleShowMenu} className="font-bold">
               Cerrar

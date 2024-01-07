@@ -306,6 +306,7 @@ export default function Profile({ params }: props) {
                 userLikedPost={post.userLikedPost}
                 commentCount={post.commentCount}
                 createdAt={post.createdAt}
+                updatedAt={post.updatedAt}
               />
             );
           })}

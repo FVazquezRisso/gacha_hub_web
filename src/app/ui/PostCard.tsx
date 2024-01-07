@@ -6,7 +6,7 @@ import { PostInterface } from "@/types/types";
 import { useState, useEffect } from "react";
 import { api } from "@/services/apiConfig";
 import UserCard from "../ui/UserCard";
-import { timeAgo } from '../../utils/convertDate.ts'
+import { timeAgo } from "../../utils/convertDate.ts";
 
 export default function PostCard({
   author,
@@ -15,7 +15,8 @@ export default function PostCard({
   userLikedPost,
   id,
   commentCount,
-  createdAt
+  createdAt,
+  updatedAt,
 }: PostInterface) {
   const contentSplitted =
     content.length > 225 ? `${content.substring(0, 200)}...` : content;
@@ -66,6 +67,7 @@ export default function PostCard({
           {contentSplitted}
         </p>
         <span className="text-text-300">{timeAgo(createdAt)}</span>
+        {updatedAt !== createdAt && <span className="text-text-300"> - editado</span>}
         <div className="h-12 flex items-center justify-around">
           <span className="flex items-center gap-1">
             {isLiked ? (

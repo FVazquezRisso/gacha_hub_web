@@ -52,6 +52,7 @@ export default function SearchPost() {
                 userLikedPost={post.userLikedPost}
                 commentCount={post.commentCount}
                 createdAt={post.createdAt}
+                updatedAt={post.updatedAt}
               />
             );
           })
