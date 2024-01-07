@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { oswald } from './ui/fonts.ts'
+import { oswald } from './ui/fonts'
  
 export default function NotFound() {
   return (
