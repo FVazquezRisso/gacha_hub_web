@@ -1,7 +1,11 @@
 import { useRouter } from 'next/navigation'
 import { IoMdArrowRoundBack } from "react-icons/io";
 
-export default function Header({ title }) {
+type Props = {
+  title: string;
+}
+
+export default function Header({ title }: Props) {
   const router = useRouter()
 
   const handleBack = () => {

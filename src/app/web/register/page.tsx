@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useState, useEffect } from "react";
-import { validateFields } from "../../../utils/validateField";
-import { api } from "../../../services/apiConfig";
+import { validateFields } from "@/utils/validateField";
+import { api } from "@/services/apiConfig";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent } from "react";
-import { notification } from '../../../utils/notification'
+import { notification } from '@/utils/notification'
 
 export default function Register() {
   const router = useRouter();

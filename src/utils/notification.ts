@@ -1,8 +1,12 @@
-import { toast } from "react-toastify";
+import { toast, ToastOptions } from "react-toastify";
 
-export const notification = (type, content) => {
-  toast[type](content, {
+type NotificationType = "success" | "error" | "info" | "warn";
+
+export const notification = (type: NotificationType, content: string): void => {
+  const options: ToastOptions = {
     position: toast.POSITION.BOTTOM_LEFT,
     autoClose: 1500,
-  });
-}
+  };
+
+  toast[type](content, options);
+};

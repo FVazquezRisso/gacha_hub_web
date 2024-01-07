@@ -1,7 +1,7 @@
 "use client";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import Header from "../../ui/Header";
+import Header from "@/app/ui/Header";
 
 export default function Settings() {
   const router = useRouter();

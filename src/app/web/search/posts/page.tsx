@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { api } from "../../../../services/apiConfig";
+import { api } from "@/services/apiConfig";
 import { oswald } from "@/app/ui/fonts";
 import { PostInterface } from "@/types/types";
 import { ChangeEvent } from "react";
@@ -53,6 +53,7 @@ export default function SearchPost() {
                 commentCount={post.commentCount}
                 createdAt={post.createdAt}
                 updatedAt={post.updatedAt}
+                deletedAt={post.deletedAt}
               />
             );
           })

@@ -1,14 +1,14 @@
 "use client";
-import PostCard from "../../../ui/PostCard";
+import PostCard from "@/app/ui/PostCard";
 import { useState, useEffect } from "react";
-import { api } from "../../../../services/apiConfig";
+import { api } from "@/services/apiConfig";
 import { PostInterface } from "@/types/types";
 import { useInView } from "react-intersection-observer";
 import { oswald } from "@/app/ui/fonts";
-import LoadingScreen from '../../../ui/LoadingScreen'
+import LoadingScreen from '@/app/ui/LoadingScreen'
 
 export default function Latest() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePosts, setHasMorePosts] = useState(true);
   const [isLoading, setIsLoading] = useState(true)
@@ -61,6 +61,7 @@ export default function Latest() {
               commentCount={post.commentCount}
               createdAt={post.createdAt}
               updatedAt={post.updatedAt}
+              deletedAt={post.deletedAt}
             />
           );
         })}
