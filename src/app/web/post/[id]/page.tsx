@@ -154,7 +154,7 @@ export default function PostDetail({ params }: Props) {
   ) => {
     event.preventDefault();
     try {
-      const response = await api.patch(
+      const response = await api.put(
         `/posts/${id}`,
         { content: newPostContent },
         {
