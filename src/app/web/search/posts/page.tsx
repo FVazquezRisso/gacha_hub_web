@@ -5,11 +5,12 @@ import { oswald } from "@/app/ui/fonts";
 import { PostInterface } from "@/types/types";
 import { ChangeEvent } from "react";
 import PostCard from '@/app/ui/PostCard';
+import cookies from 'js-cookie'
 
 export default function SearchPost() {
   const [searchValue, setSearchValue] = useState("");
   const [allPosts, setAllPosts] = useState<PostInterface[]>([]);
-  const username = localStorage.getItem('username')
+  const username = cookies.get('username')
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;

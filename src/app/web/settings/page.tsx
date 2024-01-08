@@ -2,12 +2,13 @@
 import { IoLogOutOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import Header from "@/app/ui/Header";
+import cookies from 'js-cookie'
 
 export default function Settings() {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    cookies.remove("token");
     router.push("/web/login");
   };
 

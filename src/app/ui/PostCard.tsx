@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { api } from "@/services/apiConfig";
 import UserCard from "@/app/ui/UserCard";
 import { timeAgo } from "@/utils/convertDate";
+import cookies from 'js-cookie'
 
 export default function PostCard({
   content,
@@ -30,7 +31,7 @@ export default function PostCard({
 
   const handleClickHeart = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = cookies.get("token");
       const response = await api.post(`posts/like/${id}`, null, {
         headers: {
           "x-access-token": token,

@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import cookies from 'js-cookie'
 
 export default function WebLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -11,7 +12,7 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
   const inApp = !["/web/register", "/web/login"].includes(pathname);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = cookies.get("token");
     if (!token && inApp) {
       router.push("/");
     }

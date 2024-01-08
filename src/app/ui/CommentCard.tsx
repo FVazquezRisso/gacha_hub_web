@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import UserCard from "../ui/UserCard";
 import { timeAgo } from '../../utils/convertDate'
 
@@ -16,11 +15,6 @@ type Author = {
 };
 
 export default function CommentCard({ content, author, createdAt }: Comment) {
-  const router = useRouter();
-
-  const handleClickUser = () => {
-    router.push(`/web/profile/${author.username}`);
-  };
 
   return (
     <div className="grid grid-cols-6 py-4 border-b-[1px] border-bg-300">

@@ -6,6 +6,7 @@ import { PostInterface } from "@/types/types";
 import { useInView } from "react-intersection-observer";
 import { oswald } from "@/app/ui/fonts";
 import LoadingScreen from '@/app/ui/LoadingScreen'
+import cookies from 'js-cookie'
 
 export default function Latest() {
   const [posts, setPosts] = useState<PostInterface[]>([]);
@@ -21,7 +22,7 @@ export default function Latest() {
       if (!hasMorePosts) {
         return;
       }
-      const username = localStorage.getItem('username')
+      const username = cookies.get('username')
       const response = await api.get(`/posts?page=${currentPage}&username=${username}`);
       if (response.status === 200) {
         setPosts([...posts, ...response.data.posts]);

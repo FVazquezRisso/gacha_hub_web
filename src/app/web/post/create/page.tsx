@@ -5,17 +5,18 @@ import { useRouter } from "next/navigation";
 import { notification } from "@/utils/notification";
 import TextEditor from "@/app/ui/TextEditor";
 import Header from "@/app/ui/Header";
+import cookies from 'js-cookie'
 
 export default function PostCreate() {
   const router = useRouter();
-  const avatar: any = localStorage.getItem("avatar");
-  const username: any = localStorage.getItem("username");
+  const avatar: any = cookies.get("avatar");
+  const username: any = cookies.get("username");
   const [content, setContent] = useState("");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem("token");
+      const token = cookies.get("token");
       const response = await api.post(
         "/posts",
         { content: content },

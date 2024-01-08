@@ -3,10 +3,11 @@ import Link from "next/link";
 import { IoHome, IoSearch, IoSettingsSharp } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import cookies from 'js-cookie'
 
 export default function NavBar() {
   const pathname = usePathname();
-  const username = localStorage.getItem('username')
+  const username = cookies.get('username')
   return (
     <nav className="w-screen h-16 fixed bottom-0 flex items-center justify-around bg-primary-100">
       <Link

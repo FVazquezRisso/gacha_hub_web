@@ -38,7 +38,7 @@ export default function TextEditor({ content, setContent, buttonText, range }: P
         </h4>
       </div>
       <button
-        className={disabledButton ? "disabled-button" : "button"}
+        className={disabledButton ? "disabled-button mb-4" : "button mb-4"}
         disabled={disabledButton}
       >
         {buttonText}
