@@ -17,6 +17,7 @@ import { formatDate } from "@/utils/convertDate";
 import { useRouter } from "next/navigation";
 import { notification } from "@/utils/notification";
 import TextEditor from "@/app/ui/TextEditor";
+import cookies from "js-cookie";
 
 type Props = {
   params: {
@@ -27,16 +28,16 @@ type Props = {
 export default function PostDetail({ params }: Props) {
   const { id } = params;
   const router = useRouter();
-  const username = localStorage.getItem("username");
-  const avatar = localStorage.getItem("avatar");
-  const token = localStorage.getItem("token");
+  const username = cookies.get("username");
+  const avatar = cookies.get("avatar");
+  const token = cookies.get("token");
   const [post, setPost] = useState<PostInterface | null>(null);
   const [comments, setComments] = useState<CommentInterface[]>([]);
   const [content, setContent] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
   const [isEditingPost, setIsEditingPost] = useState(false);
-  const isEdited = post?.createdAt !== post?.updatedAt 
-  const edited = isEdited ? "- editado" : ''
+  const isEdited = post?.createdAt !== post?.updatedAt;
+  const edited = isEdited ? "- editado" : "";
   const [count, setCount] = useState({
     comments: 0,
     likes: 0,
@@ -44,15 +45,15 @@ export default function PostDetail({ params }: Props) {
   const [boolean, setBoolean] = useState({
     isLoading: true,
     isMenuOpen: false,
-    isLiked: false,
   });
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const getPost = async () => {
     try {
       const response = await api.get(`posts/${id}?username=${username}`);
       if (response.status === 200) {
         setPost(response.data);
-        setBoolean({ ...boolean, isLiked: response.data.userLikedPost });
+        setIsLiked(response.data.userLikedPost);
         setCount({
           comments: response.data.commentCount,
           likes: response.data.likeCount,
@@ -85,8 +86,8 @@ export default function PostDetail({ params }: Props) {
         },
       });
       if (response.status === 204) {
-        setBoolean({ ...boolean, isLiked: !boolean.isLiked });
-        if (boolean.isLiked) {
+        setIsLiked(!isLiked);
+        if (isLiked) {
           setCount({ ...count, likes: count.likes - 1 });
         } else {
           setCount({ ...count, likes: count.likes + 1 });
@@ -148,7 +149,9 @@ export default function PostDetail({ params }: Props) {
     setIsEditingPost(true);
   };
 
-  const handleSubmitModifiedPost = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmitModifiedPost = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     try {
       const response = await api.patch(
@@ -199,7 +202,7 @@ export default function PostDetail({ params }: Props) {
             <IoEllipsisVerticalSharp size={20} onClick={handleShowMenu} />
           )}
         </div>
-        {isEditingPost && (
+        {isEditingPost ? (
           <form onSubmit={handleSubmitModifiedPost}>
             <TextEditor
               content={newPostContent}
@@ -208,16 +211,17 @@ export default function PostDetail({ params }: Props) {
               range={[10, 1000]}
             />
           </form>
+        ) : (
+          <p className="overflow-x-hidden whitespace-pre-wrap break-all mt-4">
+            {post?.content}
+          </p>
         )}
-        <p className="overflow-x-hidden whitespace-pre-wrap break-all mt-4">
-          {post?.content}
-        </p>
         <span className="text-text-300">
           {`${formatDate(post?.createdAt, false)} ${edited}`}
         </span>
         <div className="h-12 flex items-center justify-around py-4">
           <span className="flex items-center gap-1">
-            {boolean.isLiked ? (
+            {isLiked ? (
               <IoHeartSharp size={20} onClick={handleClickHeart} />
             ) : (
               <IoHeartOutline size={20} onClick={handleClickHeart} />

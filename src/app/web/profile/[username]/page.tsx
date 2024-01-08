@@ -11,6 +11,7 @@ import LoadingScreen from "@/app/ui/LoadingScreen";
 import { formatDate } from "@/utils/convertDate";
 import { notification } from "@/utils/notification";
 import TextEditor from "@/app/ui/TextEditor";
+import cookies from 'js-cookie'
 
 type props = {
   params: {
@@ -21,8 +22,8 @@ type props = {
 export default function Profile({ params }: props) {
   const { username } = params;
   const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
-  const currentUser = localStorage.getItem("username");
-  const token = localStorage.getItem("token");
+  const currentUser = cookies.get("username");
+  const token = cookies.get("token");
   const [userData, setUserData] = useState<UserInterface | null>(null);
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [newBio, setNewBio] = useState("");
@@ -87,7 +88,7 @@ export default function Profile({ params }: props) {
   const uploadAvatar = async () => {
     if (!selectedAvatar) {
       notification(
-        "warning",
+        "warn",
         "Por favor, selecciona una imagen antes de subirla."
       );
       return;
@@ -113,7 +114,7 @@ export default function Profile({ params }: props) {
 
         if (res.status === 204) {
           notification("success", "El avatar se ha actualizado con éxito.");
-          localStorage.setItem("avatar", response.data.data.url);
+          cookies.set("avatar", response.data.data.url);
           getData();
         }
         setSelectedAvatar(null);
@@ -130,7 +131,7 @@ export default function Profile({ params }: props) {
   const uploadBanner = async () => {
     if (!selectedBanner) {
       notification(
-        "warning",
+        "warn",
         "Por favor, selecciona una imagen antes de subirla."
       );
       return;
