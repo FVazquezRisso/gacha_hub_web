@@ -13,7 +13,7 @@ export default function SearchUser() {
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setSearchValue(value);
+    setSearchValue(value.replace(/\s+/g, " "));
     if (value.length > 3) {
       try {
         const response = await api.get(`/users?username=${value}`);

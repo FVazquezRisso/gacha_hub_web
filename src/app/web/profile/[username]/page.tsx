@@ -104,7 +104,7 @@ export default function Profile({ params }: props) {
       );
 
       if (response.status === 200) {
-        const res = await api.put(
+        const res = await api.patch(
           `/users/${username}`,
           {
             avatar: response.data.data.url,
@@ -147,7 +147,7 @@ export default function Profile({ params }: props) {
       );
 
       if (response.status === 200) {
-        const res = await api.put(
+        const res = await api.patch(
           `/users/${username}`,
           {
             banner: response.data.data.url,
@@ -173,7 +173,7 @@ export default function Profile({ params }: props) {
   const handleSubmitBio = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
-      const res = await api.put(
+      const res = await api.patch(
         `/users/${username}`,
         {
           bio: newBio,
