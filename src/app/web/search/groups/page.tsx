@@ -19,7 +19,7 @@ export default function SearchGroup() {
     if (value.length > 3) {
       try {
         const response = await api.get(`/groups?name=${value}`);
-        setAllGroups(response.data);
+        setAllGroups(response.data.groups);
       } catch (error) {
         console.error(error);
       }
@@ -45,7 +45,7 @@ export default function SearchGroup() {
       </div>
       <div className="flex flex-col justify-center gap-4">
         {allGroups.length !== 0 ? (
-          allGroups.map(({ id, name, userCount, postCount }) => {
+          allGroups.map(({ id, name, userCount, postCount, createdAt, updatedAt, deletedAt }) => {
             return (
               <GroupCard
                 key={id}
@@ -53,6 +53,9 @@ export default function SearchGroup() {
                 name={name}
                 userCount={userCount}
                 postCount={postCount}
+                createdAt={createdAt}
+                updatedAt={updatedAt}
+                deletedAt={deletedAt}
               />
             );
           })

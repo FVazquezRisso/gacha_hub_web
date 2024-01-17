@@ -14,10 +14,10 @@ export default function GroupCard({
   }
 
   return (
-    <div className="w-full py-4 px-8 border-b-[1px] border-bg-300 flex flex-col gap-4"
+    <div className="w-full py-4 px-8 border-b-[1px] border-bg-300 flex flex-col gap-2"
       onClick={handleClick}
     >
-      <h3 className="text-2xl font-bold">{name}</h3>
+      <h3 className="text-lg">{name}</h3>
       <div className="flex gap-8">
         <span className="text-text-300">
           <span className="font-bold text-text-200">{postCount}</span> Publicaciones

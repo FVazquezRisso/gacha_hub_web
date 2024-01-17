@@ -31,7 +31,7 @@ export default function NavBar() {
         <IoSearch size={32} />
       </Link>
       <Link
-        href={`/web/profile/${username}`}
+        href={`/web/profile/${username}/posts`}
         className={`${
           pathname.startsWith(`/web/profile/${username}`)
             ? "text-text-100 border-b-4"
