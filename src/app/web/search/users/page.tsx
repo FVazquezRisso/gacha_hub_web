@@ -35,6 +35,7 @@ export default function SearchUser() {
           autoFocus
           value={searchValue}
           onChange={handleChange}
+          placeholder="Buscar usuario"
         />
       </div>
       <div className="flex flex-col justify-center gap-4">

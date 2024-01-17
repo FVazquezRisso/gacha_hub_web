@@ -41,6 +41,7 @@ export default function SearchGroup() {
           autoFocus
           value={searchValue}
           onChange={handleChange}
+          placeholder='Buscar grupo'
         />
       </div>
       <div className="flex flex-col justify-center gap-4">

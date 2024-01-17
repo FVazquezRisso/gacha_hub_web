@@ -247,6 +247,7 @@ export default function ProfileLayout({ params, children }: props) {
               setContent={setNewBio}
               buttonText="Guardar"
               range={[0, 200]}
+              title="Bio"
             />
           </form>
         )}

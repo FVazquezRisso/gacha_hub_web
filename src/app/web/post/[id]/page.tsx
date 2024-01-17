@@ -207,6 +207,7 @@ export default function PostDetail({ params }: Props) {
               setContent={setNewPostContent}
               buttonText="Guardar"
               range={[10, 1000]}
+              title='Contenido'
             />
           </form>
         ) : (
@@ -245,6 +246,7 @@ export default function PostDetail({ params }: Props) {
               setContent={setContent}
               buttonText="Comentar"
               range={[5, 200]}
+              title='Contenido'
             />
           </div>
         </form>

@@ -90,6 +90,7 @@ export default function PostCreate() {
           setContent={setContent}
           buttonText="Publicar"
           range={[10, 1000]}
+          title='Contenido' 
         />
       </form>
     </div>

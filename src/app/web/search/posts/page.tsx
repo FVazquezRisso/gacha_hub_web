@@ -38,6 +38,7 @@ export default function SearchPost() {
           autoFocus
           value={searchValue}
           onChange={handleChange}
+          placeholder='Buscar contenido'
         />
       </div>
       <div className="flex flex-col justify-center gap-4">
