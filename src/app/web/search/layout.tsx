@@ -12,7 +12,7 @@ export default function HomeLayout({
   return (
     <>
       <div>
-        <div className="h-16 bg-primary-100 flex items-center justify-around fixed w-screen text-2xl">
+        <div className="h-16 bg-primary-100 flex items-center justify-around fixed w-screen text-xl">
           <Link
             href="/web/search/users"
             className={`${
@@ -31,7 +31,7 @@ export default function HomeLayout({
           >
             Publicaciones
           </Link>
-          {/* <Link
+          <Link
             href="/web/search/groups"
             className={`${
               pathname === "/web/search/groups" &&
@@ -39,7 +39,7 @@ export default function HomeLayout({
             } h-full flex items-center w-1/2 justify-center font-semibold`}
           >
             Grupos
-          </Link> */}
+          </Link>
         </div>
         {children}
       </div>

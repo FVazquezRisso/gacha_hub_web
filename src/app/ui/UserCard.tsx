@@ -10,7 +10,7 @@ export default function UserCard({ username, avatar }: Props) {
   const router = useRouter()
 
   const handleClickUser = () => {
-    router.push(`/web/profile/${username}`);
+    router.push(`/web/profile/${username}/posts`);
   };
 
   return (

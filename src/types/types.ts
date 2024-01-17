@@ -39,3 +39,14 @@ interface Author {
   avatar: string;
   role: string;
 }
+
+export interface GroupInterface {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: any;
+  userCount: number;
+  postCount: number;
+  userJoined: boolean;
+}

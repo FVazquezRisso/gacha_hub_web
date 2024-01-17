@@ -134,9 +134,7 @@ export default function PostDetail({ params }: Props) {
       });
       if (response.status === 204) {
         notification("success", "Publicación eliminada con éxito");
-        setTimeout(() => {
-          router.back();
-        }, 1500);
+        router.back();
       }
     } catch (error) {
       notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
@@ -154,7 +152,7 @@ export default function PostDetail({ params }: Props) {
   ) => {
     event.preventDefault();
     try {
-      const response = await api.put(
+      const response = await api.patch(
         `/posts/${id}`,
         { content: newPostContent },
         {
@@ -209,6 +207,7 @@ export default function PostDetail({ params }: Props) {
               setContent={setNewPostContent}
               buttonText="Guardar"
               range={[10, 1000]}
+              title='Contenido'
             />
           </form>
         ) : (
@@ -247,6 +246,7 @@ export default function PostDetail({ params }: Props) {
               setContent={setContent}
               buttonText="Comentar"
               range={[5, 200]}
+              title='Contenido'
             />
           </div>
         </form>

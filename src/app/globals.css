@@ -10,6 +10,7 @@
   --accent-200: #345e37;
   --text-100: #ffffff;
   --text-200: #e0e0e0;
+  --text-300: #929292;
   --bg-100: #1e1e1e;
   --bg-200: #2d2d2d;
   --bg-300: #454545;
@@ -48,10 +49,14 @@ html {
   border-radius: 50%;
   box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
   transform: translateX(-38px);
-  animation: l21 .5s infinite alternate linear;
+  animation: l21 0.5s infinite alternate linear;
 }
 
 @keyframes l21 {
-  50%  {box-shadow: 19px 0 0 3px, 38px 0 0 7px, 57px 0 0 3px}
-  100% {box-shadow: 19px 0 0 0  , 38px 0 0 3px, 57px 0 0 7px}
+  50% {
+    box-shadow: 19px 0 0 3px, 38px 0 0 7px, 57px 0 0 3px;
+  }
+  100% {
+    box-shadow: 19px 0 0 0, 38px 0 0 3px, 57px 0 0 7px;
+  }
 }
