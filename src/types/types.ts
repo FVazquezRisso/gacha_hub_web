@@ -40,7 +40,7 @@ interface Author {
   role: string;
 }
 
-interface GroupInterface {
+export interface GroupInterface {
   id: number;
   name: string;
   createdAt: string;
