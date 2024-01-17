@@ -36,8 +36,12 @@ export default function Register() {
         router.push("/web/login");
       }
     } catch (error) {
-      notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
-      console.error(error);
+      if (error.response.status === 409) {
+        notification("warn", "¡Nombre de usuario ocupado! Prueba con otro.");
+      } else {
+        notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
+        console.error(error);
+      }
     }
   };
 
