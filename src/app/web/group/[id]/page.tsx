@@ -9,7 +9,7 @@ import cookies from "js-cookie";
 import PostCard from "@/app/ui/PostCard";
 import Header from "@/app/ui/Header";
 import { formatDate } from "@/utils/convertDate";
-import { notificatoion } from "@/utils/notification";
+import { notification } from "@/utils/notification";
 import { IoMdCreate } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
