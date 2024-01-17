@@ -104,20 +104,20 @@ export default function GroupDetail({ params }: Props) {
       <Header title="Información del Grupo" />
       <div className="pb-16">
         <div className="p-4 border-b-[1px] border-bg-300 flex flex-col gap-2">
-          <h3 className="text-3xl font-bold mb-2">{groupDetail.name}</h3>
+          <h3 className="text-3xl font-bold mb-2">{groupDetail?.name}</h3>
           <span className="text-text-300">
-            Creado: {formatDate(groupDetail.createdAt)}
+            Creado: {formatDate(groupDetail?.createdAt, false)}
           </span>
           <div className="flex gap-8">
             <span className="text-text-300">
               <span className="font-bold text-text-200">
-                {groupDetail.postCount}
+                {groupDetail?.postCount}
               </span>{" "}
               Publicaciones
             </span>
             <span className="text-text-300">
               <span className="font-bold text-text-200">
-                {groupDetail.userCount}
+                {groupDetail?.userCount}
               </span>{" "}
               Miembros
             </span>
@@ -153,7 +153,7 @@ export default function GroupDetail({ params }: Props) {
           </div>
         )}
       </div>
-      {groupDetail.userJoined && (
+      {groupDetail?.userJoined && (
         <div
           className="h-14 w-14 bg-primary-100 rounded-full border-4 border-primary-100 fixed bottom-[5.5rem] right-6 flex items-center justify-center"
           onClick={handleClickCreatePost}

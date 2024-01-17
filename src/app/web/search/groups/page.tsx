@@ -57,6 +57,7 @@ export default function SearchGroup() {
                 createdAt={createdAt}
                 updatedAt={updatedAt}
                 deletedAt={deletedAt}
+                userJoined={false}
               />
             );
           })

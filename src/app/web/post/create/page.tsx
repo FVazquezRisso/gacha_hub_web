@@ -23,7 +23,7 @@ export default function PostCreate() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const body = { content };
+      const body: any = { content };
       if (groupId) body.groupId = groupId;
       const response = await api.post("/posts", body, {
         headers: { "x-access-token": token },

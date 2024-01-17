@@ -35,7 +35,7 @@ export default function Register() {
         notification("success", "Cuenta creada con éxito.");
         router.push("/web/login");
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.status === 409) {
         notification("warn", "¡Nombre de usuario ocupado! Prueba con otro.");
       } else {

@@ -4,7 +4,6 @@ import { api } from "@/services/apiConfig";
 import GroupCard from "@/app/ui/GroupCard";
 import { GroupInterface } from "@/types/types";
 import { oswald } from "@/app/ui/fonts";
-import cookies from "js-cookie";
 import { useInView } from "react-intersection-observer";
 
 type props = {
@@ -61,6 +60,7 @@ export default function ProfileGroups({ params }: props) {
               createdAt={group.createdAt}
               updatedAt={group.updatedAt}
               deletedAt={group.deletedAt}
+              userJoined={false}
             />
           );
         })}

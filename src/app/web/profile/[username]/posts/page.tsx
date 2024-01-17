@@ -4,7 +4,6 @@ import { api } from "@/services/apiConfig";
 import PostCard from "@/app/ui/PostCard";
 import { PostInterface } from "@/types/types";
 import { oswald } from "@/app/ui/fonts";
-import axios from "axios";
 import cookies from "js-cookie";
 import { useInView } from "react-intersection-observer";
 

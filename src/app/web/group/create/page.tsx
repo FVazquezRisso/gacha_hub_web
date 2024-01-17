@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import TextEditor from "@/app/ui/TextEditor";
 import Header from "@/app/ui/Header";
 import cookies from "js-cookie";
@@ -14,7 +14,7 @@ export default function GroupCreate() {
   const avatar = cookies.get("avatar");
   const token = cookies.get("token");
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await api.post(
@@ -30,7 +30,7 @@ export default function GroupCreate() {
         notification("success", "Grupo creado con éxito.");
         router.back();
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.status === 409) {
         notification('warn', '¡Nombre de grupo ocupado! Prueba con otro.')
       } else {
