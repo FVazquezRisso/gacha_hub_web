@@ -6,9 +6,16 @@ type Props = {
   setContent: React.Dispatch<React.SetStateAction<string>>;
   buttonText: string;
   range: [number, number];
+  title: string;
 };
 
-export default function TextEditor({ content, setContent, buttonText, range }: Props) {
+export default function TextEditor({
+  content,
+  setContent,
+  buttonText,
+  range,
+  title
+}: Props) {
   const [disabledButton, setDisabledButton] = useState(true);
   const [minLength, maxLength] = range;
 
@@ -23,12 +30,17 @@ export default function TextEditor({ content, setContent, buttonText, range }: P
 
   return (
     <div>
-      <TextareaAutosize
-        className="mt-6 resize-none bg-bg-100 outline-none border-b-2 border-primary-100 rounded-sm w-full px-2 text-text-200 text-lg"
-        autoFocus
-        onChange={handleChange}
-        value={content}
-      />
+      <label className="flex items-start mt-6 gap-2">
+        <span className='font-bold text-lg'>
+        {title}: 
+        </span>
+        <TextareaAutosize
+          className="resize-none bg-bg-100 outline-none border-b-2 border-primary-100 rounded-sm w-full px-2 text-text-200 text-lg"
+          autoFocus
+          onChange={handleChange}
+          value={content}
+        />
+      </label>
       <div className="w-auto flex justify-end py-2">
         <h4>
           <span className={disabledButton ? "text-red-500" : ""}>
