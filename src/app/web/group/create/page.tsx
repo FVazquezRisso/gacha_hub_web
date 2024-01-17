@@ -31,9 +31,12 @@ export default function GroupCreate() {
         router.back();
       }
     } catch (error) {
-      notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
-
-      console.error(error);
+      if (error.response.status === 409) {
+        notification('warn', '¡Nombre de grupo ocupado! Prueba con otro.')
+      } else {
+        notification("error", "Error inesperado. Inténtalo de nuevo más tarde.");
+        console.error(error);
+      }
     }
   };
 
@@ -54,6 +57,7 @@ export default function GroupCreate() {
           setContent={setContent}
           buttonText="Crear"
           range={[4, 50]}
+          title='Nombre'
         />
       </form>
     </>
