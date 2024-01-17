@@ -48,4 +48,5 @@ export interface GroupInterface {
   deletedAt: any;
   userCount: number;
   postCount: number;
+  userJoined: boolean;
 }
