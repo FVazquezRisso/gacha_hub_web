@@ -1,9 +1,7 @@
 "use client";
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, ReactNode } from "react";
 import { api } from "@/services/apiConfig";
-import PostCard from "@/app/ui/PostCard";
-import { PostInterface, UserInterface } from "@/types/types";
-import { oswald } from "@/app/ui/fonts";
+import { UserInterface } from "@/types/types";
 import Header from "@/app/ui/Header";
 import axios from "axios";
 import { AiFillEdit } from "react-icons/ai";
@@ -11,21 +9,24 @@ import LoadingScreen from "@/app/ui/LoadingScreen";
 import { formatDate } from "@/utils/convertDate";
 import { notification } from "@/utils/notification";
 import TextEditor from "@/app/ui/TextEditor";
-import cookies from 'js-cookie'
+import cookies from "js-cookie";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type props = {
   params: {
     username: string;
   };
+  children: ReactNode;
 };
 
-export default function Profile({ params }: props) {
+export default function ProfileLayout({ params, children }: props) {
   const { username } = params;
+  const pathname = usePathname();
   const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
   const currentUser = cookies.get("username");
   const token = cookies.get("token");
   const [userData, setUserData] = useState<UserInterface | null>(null);
-  const [posts, setPosts] = useState<PostInterface[]>([]);
   const [newBio, setNewBio] = useState("");
   const [editBio, setEditBio] = useState(false);
   const [boolean, setBoolean] = useState({
@@ -48,19 +49,6 @@ export default function Profile({ params }: props) {
       console.error(error);
     } finally {
       setBoolean({ ...boolean, isLoading: false });
-    }
-  };
-
-  const getPosts = async () => {
-    try {
-      const response = await api.get(
-        `/posts?username=${currentUser}&author=${username}`
-      );
-      if (response.status === 200) {
-        setPosts(response.data.posts);
-      }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -171,7 +159,7 @@ export default function Profile({ params }: props) {
   };
 
   const handleSubmitBio = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       const res = await api.patch(
         `/users/${username}`,
@@ -220,7 +208,6 @@ export default function Profile({ params }: props) {
 
   useEffect(() => {
     getData();
-    getPosts();
   }, []);
 
   if (boolean.isLoading) {
@@ -242,7 +229,7 @@ export default function Profile({ params }: props) {
           className="w-20 aspect-square object-cover rounded-full absolute -translate-y-1/2 translate-x-4 border-4 border-bg-100"
         />
       </div>
-      <div className="pt-12 px-8">
+      <div className="pt-12 px-8 border-b-[1px] border-bg-300 pb-4">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">{username}</h2>
           {currentUser === username && (
@@ -288,32 +275,28 @@ export default function Profile({ params }: props) {
           )}
         </div>
       </div>
-      <div className="flex flex-col mt-4 border-t-[1px] border-bg-300">
-        {posts.length !== 0 &&
-          posts.map((post: PostInterface) => {
-            return (
-              <PostCard
-                key={post.id}
-                id={post.id}
-                author={post.author}
-                content={post.content}
-                likeCount={post.likeCount}
-                userLikedPost={post.userLikedPost}
-                commentCount={post.commentCount}
-                createdAt={post.createdAt}
-                updatedAt={post.updatedAt}
-                deletedAt={post.deletedAt}
-              />
-            );
-          })}
-        {posts.length === 0 && (
-          <div className="h-48 flex items-center justify-center">
-            <p className={`${oswald.className} text-3xl text-center`}>
-              ¡<span className="text-primary-200">{`${username} `}</span>
-              no tiene publicaciones aún!
-            </p>
-          </div>
-        )}
+      <div className="h-12 bg-bg-100 flex items-center justify-around w-screen text-xl font-semibold">
+        <Link
+          href={`/web/profile/${username}/posts`}
+          className={`${
+            pathname === `/web/profile/${username}/posts` &&
+            "border-b-2 border-text-100 text-text-100"
+          } h-full flex items-center w-1/2 justify-center`}
+        >
+          Publicaciones
+        </Link>
+        <Link
+          href={`/web/profile/${username}/groups`}
+          className={`${
+            pathname === `/web/profile/${username}/groups` &&
+            "border-b-2 border-text-100 text-text-100"
+          } h-full flex items-center w-1/2 justify-center`}
+        >
+          Grupos
+        </Link>
+      </div>
+      <div className="flex flex-col mt-4">
+        {children}
         {boolean.editingProfile && (
           <div className="no-scroll-container top-0 z-10 bg-black bg-opacity-80 fixed">
             <div className="flex flex-col gap-4 bg-primary-100 items-center py-8 px-12 text-xl rounded-md">
