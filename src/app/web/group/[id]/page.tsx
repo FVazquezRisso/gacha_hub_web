@@ -22,7 +22,7 @@ type Props = {
 export default function GroupDetail({ params }: Props) {
   const { id } = params;
   const router = useRouter();
-  const [groupDetail, setGroupDetail] = useState<GroupInterface>({});
+  const [groupDetail, setGroupDetail] = useState<GroupInterface | null>(null);
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePosts, setHasMorePosts] = useState(true);
