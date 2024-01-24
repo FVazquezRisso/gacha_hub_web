@@ -17,7 +17,7 @@ export default function PostCreate() {
   const [isLoading, setIsLoading] = useState(true);
   const token = cookies.get("token");
 
-  let groupId
+  let groupId: any
   if (typeof window !== "undefined") {
     const url = window.location.href;
     const searchParams = new URLSearchParams(new URL(url).search);
