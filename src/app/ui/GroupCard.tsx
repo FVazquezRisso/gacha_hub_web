@@ -10,7 +10,7 @@ export default function GroupCard({
   const router = useRouter()
 
   const handleClick = () => {
-    router.push(`/web/group/${id}/detail`)
+    router.push(`/web/group/${id}`)
   }
 
   return (

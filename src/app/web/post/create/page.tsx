@@ -19,7 +19,7 @@ export default function PostCreate() {
   const url = window.location.href;
   const searchParams = new URLSearchParams(new URL(url).search);
   const groupId = searchParams.get("groupId");
-
+  
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -82,7 +82,7 @@ export default function PostCreate() {
         </div>
         {groupName && (
           <h3 className="text-text-300">
-            Se publicará en el grupo {groupName}
+            {`Se publicará en el grupo "${groupName}"`}
           </h3>
         )}
         <TextEditor
