@@ -16,7 +16,8 @@ export default function PostCreate() {
   const [groupName, setGroupName] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const token = cookies.get("token");
-  const url = window.location.href;
+
+  const url = typeof window !== "undefined" ? window.location.href : "";
   const searchParams = new URLSearchParams(new URL(url).search);
   const groupId = searchParams.get("groupId");
   
@@ -57,11 +58,13 @@ export default function PostCreate() {
   };
 
   useEffect(() => {
+  if (typeof window !== "undefined") {
     if (groupId) {
       getGroup();
     } else {
       setIsLoading(false);
     }
+  }
   }, [groupId]);
 
   if (isLoading) {
