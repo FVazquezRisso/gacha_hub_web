@@ -17,10 +17,13 @@ export default function PostCreate() {
   const [isLoading, setIsLoading] = useState(true);
   const token = cookies.get("token");
 
-  const url = typeof window !== "undefined" ? window.location.href : "";
-  const searchParams = new URLSearchParams(new URL(url).search);
-  const groupId = searchParams.get("groupId");
-  
+  let groupId
+  if (typeof window !== "undefined") {
+    const url = window.location.href;
+    const searchParams = new URLSearchParams(new URL(url).search);
+    groupId = searchParams.get("groupId");
+  }
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -58,13 +61,13 @@ export default function PostCreate() {
   };
 
   useEffect(() => {
-  if (typeof window !== "undefined") {
-    if (groupId) {
-      getGroup();
-    } else {
-      setIsLoading(false);
+    if (typeof window !== "undefined") {
+      if (groupId) {
+        getGroup();
+      } else {
+        setIsLoading(false);
+      }
     }
-  }
   }, [groupId]);
 
   if (isLoading) {
@@ -93,7 +96,7 @@ export default function PostCreate() {
           setContent={setContent}
           buttonText="Publicar"
           range={[10, 1000]}
-          title='Contenido' 
+          title="Contenido"
         />
       </form>
     </div>
